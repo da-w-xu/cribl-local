@@ -1,6 +1,7 @@
 default:
   description: Default Worker Group
   tags: default
+  configVersion: e8e7bee
 default_fleet:
   description: Default Fleet
   tags: default
