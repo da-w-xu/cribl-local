@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "title": "",
+  "required": ["dataset"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["cribl_lake"],
+      "flag": {"prefix": "destination"}
+    },
+    "dataset": {
+      "type": "string",
+      "title": "Lake dataset",
+      "description": "Lake dataset to collect data from."
+    }
+  }
+}

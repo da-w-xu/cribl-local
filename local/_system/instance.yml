@@ -1,0 +1,6 @@
+distributed:
+  mode: master
+  master:
+    host: 0.0.0.0
+    port: 4200
+    resiliency: none
