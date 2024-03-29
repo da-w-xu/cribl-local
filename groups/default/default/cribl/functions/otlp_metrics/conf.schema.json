@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "title": "",
+  "properties": {
+    "dropNonMetricEvents": {
+      "type": "boolean",
+      "title": "Drop non-metric events",
+      "description": "Determines whether or not to drop any non-metric events.",
+      "default": false
+    }
+  }
+}

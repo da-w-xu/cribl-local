@@ -1,0 +1,210 @@
+
+# This is the master list of configurable features in the product.
+# By default, they are disabled unless the `disabled` option is set to `false`.
+
+api/features:
+  disabled: true
+api/leader/resiliency:
+  disabled: false
+collector/azure_blob:
+  disabled: false
+collector/database:
+  disabled: false
+collector/filesystem:
+  disabled: false
+collector/google_cloud_storage:
+  disabled: false
+collector/rest:
+  disabled: false
+collector/s3:
+  disabled: false
+collector/script:
+  disabled: false
+collector/splunk:
+  disabled: false
+destination/azure_data_explorer:
+  disabled: false
+destination/cribl_http:
+  disabled: false
+destination/cribl_lake:
+  disabled: true
+destination/cribl_tcp:
+  disabled: false
+destination/disk_spool:
+  disabled: false
+destination/elastic_cloud:
+  disabled: false
+destination/exabeam:
+  disabled: false
+destination/filesystem:
+  disabled: false
+destination/filesystem/stagePath:
+  disabled: false
+destination/kafka/protobuf:
+  disabled: true
+destination/security_lake:
+  disabled: false
+feature-launchdarkly:
+  disabled: true
+feature/authz_teams:
+  disabled: true
+feature/checkpointing:
+  disabled: true
+feature/copilot_chat:
+  disabled: true
+feature/custom_command:
+  disabled: false
+feature/email-notification:
+  disabled: false
+feature/email-notification-cloud-target:
+  disabled: true
+feature/fast_promise:
+  disabled: false
+feature/file-mode-auto:
+  disabled: false
+feature/generic_protobuf:
+  disabled: true
+feature/http2:
+  disabled: true
+feature/kubernetes_explore:
+  disabled: true
+feature/leader_upgrade:
+  disabled: false
+feature/licensing:
+  disabled: false
+feature/no_roles_jwt:
+  disabled: true
+feature/persistent_queue:
+  disabled: false
+feature/search_pushdown_regex:
+  disabled: false
+feature/search_pushdown_subfields:
+  disabled: false
+feature/search_pushdown_time_from_datatype:
+  disabled: false
+feature/search_usage_groups:
+  disabled: false
+feature/secure_lookup:
+  disabled: true
+feature/service_limits:
+  disabled: true
+feature/socket_router:
+  disabled: true
+feature/sse:
+  disabled: true
+feature/tcp_pinning_alleviation:
+  disabled: true
+function/tee:
+  disabled: false
+metadata/aws:
+  disabled: false
+metadata/cribl:
+  disabled: false
+metadata/env:
+  disabled: false
+metadata/kube:
+  disabled: false
+metadata/os:
+  disabled: false
+monitoring/licensing:
+  disabled: false
+pack/custom_function:
+  disabled: false
+search/series_result_store:
+  disabled: false
+service/lease_renew:
+  disabled: false
+settings/api/endpoint:
+  disabled: false
+settings/api/tls:
+  disabled: false
+settings/auth:
+  disabled: false
+settings/limits/metrics_directory:
+  disabled: false
+settings/limits/services_limits:
+  disabled: false
+settings/logging-controls:
+  disabled: false
+settings/service_processes:
+  disabled: false
+settings/system/intercom:
+  disabled: false
+source/appscope:
+  disabled: false
+source/appscope/filter:
+  disabled: false
+source/appscope/persistence:
+  disabled: false
+source/azure_blob:
+  disabled: false
+source/confluent_cloud:
+  disabled: false
+source/cribl:
+  disabled: false
+source/cribl_http:
+  disabled: false
+source/cribl_tcp:
+  disabled: false
+source/criblmetrics:
+  disabled: false
+source/crowdstrike:
+  disabled: false
+source/edge_prometheus:
+  disabled: false
+source/edge_prometheus/persistence:
+  disabled: false
+source/eventhub:
+  disabled: false
+source/exec:
+  disabled: false
+source/file:
+  disabled: false
+source/google_pubsub:
+  disabled: false
+source/journal_files:
+  disabled: false
+source/kafka:
+  disabled: false
+source/kinesis:
+  disabled: false
+source/kube_events:
+  disabled: false
+source/kube_logs:
+  disabled: false
+source/kube_metrics:
+  disabled: false
+source/model_driven_telemetry:
+  disabled: false
+source/office365_mgmt:
+  disabled: false
+source/office365_msg_trace:
+  disabled: false
+source/office365_service:
+  disabled: false
+source/prometheus:
+  disabled: false
+source/s3:
+  disabled: false
+source/s3_inventory:
+  disabled: true
+source/splunk_search:
+  disabled: false
+source/sqs:
+  disabled: false
+source/system_metrics:
+  disabled: false
+source/system_state:
+  disabled: false
+source/win_event_logs:
+  disabled: false
+source/windows_metrics:
+  disabled: false
+system/diagnostics:
+  disabled: false
+system/roles:
+  disabled: false
+system/users:
+  disabled: false
+
+    

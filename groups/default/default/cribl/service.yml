@@ -1,0 +1,9 @@
+connections:
+  procs: 1
+  memoryLimit: 2GB
+metrics:
+  procs: 1
+  memoryLimit: 2GB
+notifications:
+  procs: 1
+  memoryLimit: 2GB
