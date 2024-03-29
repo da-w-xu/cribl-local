@@ -1,0 +1,7 @@
+default:
+  description: Default Worker Group
+  tags: default
+default_fleet:
+  description: Default Fleet
+  tags: default
+  isFleet: true
