@@ -56,19 +56,24 @@ exports.taskExecute = async (job, opts) => {
     return;
   }
 
+  const descriptor = {
+    packageUrl: package.localPackageUrl,
+    hashUrl: package.localHashUrl,
+    version: package.version,
+  };
   logger.info('task opts', { opts });
-  logger.info('Checking upgradeability', package);
+  logger.info('Checking upgradeability', { ...descriptor });
   let upgradeResult;
-  upgradeResult = await upgradeClient.checkUpgradePath(package, job.logger());
+  upgradeResult = await upgradeClient.checkUpgradePath(descriptor, job.logger());
   if (!upgradeResult.canUpgrade) {
     logger.info(upgradeResult.message);
     job.addResult(upgradeResult);
     return;
   }
   logger.info('Fetching assets');
-  const downloadResult = await upgradeClient.downloadAssets(package, opts.authToken);
+  const downloadResult = await upgradeClient.downloadAssets(descriptor, opts.authToken);
   logger.info('Fetched assets', downloadResult);
-  if (package.hashUrl) {
+  if (descriptor.hashUrl) {
     logger.info('Verifying assets');
     await upgradeClient.verifyAssets(downloadResult);
     logger.info('Assets verified');

@@ -107,4 +107,4 @@ default:
   type: cribl_meta
   description: Default list of datasets to be searched when none is specified
   datasets:
-    - cribl_internal_logs 
+    - cribl_search_sample 

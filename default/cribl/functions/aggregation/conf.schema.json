@@ -52,7 +52,7 @@
     "groupbys": {
       "type": "array",
       "title": "Group by fields",
-      "description": "Fields to group aggregates by, supports wildcard expressions.",
+      "description": "Fields to group aggregates by. Supports wildcard expressions. Warning: Using wildcard '*' causes all fields in the event to be included, which can result in high cardinality and increased memory usage. Exclude fields that can result in high cardinality before using wildcards. Example: !_time, !_numericValue, *",
       "items": {
         "type": "string"
       }

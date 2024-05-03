@@ -9,6 +9,9 @@ reader_all:
   policy:
     - GroupRead *
     - Product * GET
+    - POST /m/*/edge/search/file
+    - POST /w/*/edge/search/file
+    - Licenses
 collect_all:
   description: 'Users with collect_all role can run existing collection jobs of all Worker Groups'
   policy:
@@ -24,6 +27,7 @@ owner_all:
   policy:
     - Product * GET
     - GroupFull *
+    - Licenses
 notification_admin:
   description: 'Users with notification_admin role get read/write access to all Notifications.'
   policy:
@@ -86,6 +90,7 @@ stream_editor:
   tags: [product, stream]
   policy:
     - ProductUser stream *
+    - LakeRead default *
     - Monitor
     - '* /w/*'
   title: Editor
@@ -94,6 +99,7 @@ stream_admin:
   tags: [product, stream]
   policy:
     - ProductAdmin stream
+    - LakeRead default *
   title: Admin
   description: "Admin can do anything within Stream"
 edge_user:
@@ -110,10 +116,13 @@ edge_reader:
     - POST /system/metrics/query
     - POST /edge/metrics/query
     - GET /w/*
+    - POST /m/*/edge/search/file
+    - POST /w/*/edge/search/file
     - POST /m/*/edge/metrics/query
     - POST /m/*/system/metrics/query
     - POST /w/*/edge/metrics/query
     - POST /w/*/system/metrics/query
+    - POST /products/edge/map/query
     - GET /system/settings
     - GET /system/settings/auth
     - GET /system/roles
@@ -142,6 +151,8 @@ edge_editor:
     - ProductUser edge *
     - Monitor
     - POST /edge/metrics/query
+    - POST /products/edge/map/query
+    - POST /m/*/edge/search/file
     - '* /w/*'
   title: Editor
   description: "Editor can create, read and modify all Edge resources"
@@ -149,6 +160,8 @@ edge_admin:
   tags: [product, edge]
   policy:
     - ProductAdmin edge
+    - POST /products/edge/map/query
+    - POST /m/*/edge/search/file
   title: Admin
   description: "Admin can do anything within Edge"
 search_user:
@@ -172,3 +185,13 @@ search_admin:
     - SearchMaintainer *
   title: Admin
   description: "Admin can do anything within Search"
+ws_owner:
+  policy:
+    - '* *'
+  title: Workspace Owner
+  description: Workspace Owner
+ws_admin:
+  policy:
+    - '* *'
+  title: Workspace Admin
+  description: Workspace Admin

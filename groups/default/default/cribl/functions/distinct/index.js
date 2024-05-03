@@ -1,5 +1,5 @@
 exports.name = 'Distinct';
-exports.version = '0.1.3';
+exports.version = '0.1.4';
 exports.disabled = false;
 exports.handleSignals = true;
 exports.group = C.INTERNAL_FUNCTION_GROUP;
@@ -83,14 +83,21 @@ exports.process = (event) => {
 
   if (event.__signalEvent__) {
     // filter out close events from log (not interesting for distinct)
-    if (event.__signalEvent__ !== 'close') {
-      logger.debug('signal event received', { event: event.__signalEvent__ });
-    }
-
+    logger.debug('signal event received', { event: event.__signalEvent__ });
+ 
     switch(event.__signalEvent__) {
       case 'reset':
         reset();
         return event;
+
+      case 'close':
+        if (isFederated) {
+          // flush on close (and start fresh) if we are running federated
+          return flush(event, true);
+        } else {
+          // ignore close on coordinated side
+          return event;
+        }
 
       case 'final':
       case 'complete_gen':
@@ -119,10 +126,11 @@ exports.process = (event) => {
 
 /**
  * Called to flush all distinct values to output.
- * @param {*} triggerEvent Used as template for output events
+ * @param triggerEvent Used as template for output events
+ * @param resetOnFlush Resets the content as part of flush
  * @returns An array of CriblEvent instances
  */
-function flush(triggerEvent) {
+function flush(triggerEvent, resetOnFlush = false) {
   let ret = [];
 
   // do not envelope output into reset/complete_gen if running on federated
@@ -151,6 +159,8 @@ function flush(triggerEvent) {
   }
 
   ret.push(triggerEvent); // original final/timer/complete_gen event
+
+  if (resetOnFlush) reset(); // asked to start fresh
   return ret;
 }
 

@@ -7,3 +7,14 @@ metrics:
 notifications:
   procs: 1
   memoryLimit: 2GB
+search:
+  procs: 1
+  memoryLimit: 2GB
+stream_connections:
+  procs: 0
+  autoScale: true
+  memoryLimit: 2GB
+edge_connections:
+  procs: 0
+  autoScale: true
+  memoryLimit: 2GB

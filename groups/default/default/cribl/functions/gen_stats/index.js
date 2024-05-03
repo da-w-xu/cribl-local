@@ -70,6 +70,9 @@ function validateStart(evt) {
   if (!evt.source || evt.source === '') return 'Missing source';
   if (!evt.datasetId || evt.datasetId === '') return 'Missing datasetId';
 }
+function objectKey(datasetId, source) {
+  return `${datasetId}-${source}`
+}
 
 exports.process = (evt) => {
   switch (evt.__signalEvent__) {
@@ -81,18 +84,20 @@ exports.process = (evt) => {
           return;
         }
         //initialize producer for object on start event with the fields to collect
-        statsMap.set(evt.source, {
+        statsMap.set(objectKey(evt.datasetId, evt.source), {
           fileInfo: evt.fileInfo,
           producer: createProducer(evt.fields),
           datasetId: evt.datasetId,
+          source: evt.source
         });
         logger.debug('Collecting stats for', {fileInfo: evt.fileInfo, fields: evt.fields});
         return;
       } else if (evt.type === 'end') {
         // on end flush the stats for the object that finished streaming.
-        const stats = statsMap.get(evt.source);
+        const key = objectKey(evt.datasetId, evt.source);
+        const stats = statsMap.get(key);
         const rv = flushStats(stats, evt);
-        statsMap.delete(evt.source);
+        statsMap.delete(key);
         logger.debug('Finished collecting stats for', {fileInfo: stats.fileInfo});
         return rv;
       } else {
@@ -103,8 +108,8 @@ exports.process = (evt) => {
     case 'final': {
       // on final signal flush any remaining stats
       const rv = createMessageCarrier(evt);
-      for (const [source, stats] of statsMap.entries()) {
-        rv.fileInfos.push(createFileInfoDetail(source, stats));
+      for (const stats of statsMap.values()) {
+        rv.fileInfos.push(createFileInfoDetail(stats.source, stats));
       }
       statsMap = new Map();
       const events = [evt];
@@ -116,7 +121,7 @@ exports.process = (evt) => {
     case undefined: {
       // not a signal.
       const { source } = evt;
-      const producer = statsMap.get(source)?.producer;
+      const producer = statsMap.get(objectKey(evt.dataset, source))?.producer;
       if (!producer) {
         if (warned.has(source)) return;
         // ignore objects we don't know about since we don't know what to collect

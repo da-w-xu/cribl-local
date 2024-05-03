@@ -18,6 +18,7 @@ GroupEdit:
     - GroupRead ${groupName}
     - POST /system/capture
     - '* /w/*'
+    - LakeRead default *
   description: Can modify resources within this @{group}
   title: Editor
 GroupCollect:
@@ -29,6 +30,7 @@ GroupCollect:
     - POST /m/${groupName}/jobs
     - PATCH /m/${groupName}/jobs/*
     - GroupRead ${groupName}
+    - LakeRead default *
   description: Can run Collection jobs on this @{group}
   title: Collect
 GroupRead:
@@ -55,6 +57,7 @@ GroupRead:
     - GET /system/redis-cache-limits
     - GET /system/search-limits
     - POST /system/metrics/query
+    - POST /products/edge/map/query
     - GET /notifications
     - GET /conditions
     - GET /conditions/*
@@ -169,14 +172,20 @@ Product:
     - GET /clui
     - PATCH /ui/*
   description: Building block for product policies
+Licenses:
+  template:
+    - GET /system/licenses
+    - GET /system/licenses/*
 BaseProductUser:
   template:
     - GET /master/groups
     - GET /master/workers
     - GET /conditions
+    - GET /conditions/*
     - GET /m/*/routes/*
     - GET /notification-targets
     - GET /notifications
+    - GET /notification-templates
     - GET /system/authentication
     - GET /system/licenses
     - GET /system/logs
@@ -237,8 +246,8 @@ ProductAdmin:
     - POST /system/metrics/query
     - GET /system/instance/*
     - PATCH /master/workers/restart
-    - '* /system/teams'
-    - '* /system/teams/*'
+    - 'GET /system/teams'
+    - 'GET /system/teams/*'
     - GET /version/branch
     - GET /system/settings/auth
     - GET /system/scripts
@@ -246,6 +255,7 @@ ProductAdmin:
     - GET /settings/features
     - GET /system/services-limits
     - GET /system/processes
+    - Licenses
   description: Can create, view, update, and delete all @{group}s and resources
 DatasetMaintain:
   args:
@@ -290,7 +300,7 @@ SearchRuntimeRestrictionsMaintainer:
     - groupName
   template:
     - 'GET /m/${groupName}/search/srr/sendOutsideCluster'
-    - 'GET /m/${groupName}/search/srr/export'
+    - 'GET /m/${groupName}/search/srr/exportToLake'
   description: Can perform advanced search operator tasks
   title: Search Runtime Maintainer
 SearchRuntimeRestrictionsAdmin:
@@ -327,16 +337,18 @@ SearchBase:
     - GET /m/${groupName}/search/trust-policies
     - '* /m/${groupName}/search/jobs/*'
     - POST|GET /m/${groupName}/search/jobs
+    - '* /m/${groupName}/search/saved/*'
     - POST|GET /m/${groupName}/search/saved
-    - GET /m/${groupName}/search/saved/*
     - GET /m/${groupName}/conditions
     - GET /m/${groupName}/search/dashboard-categories
     - GET /m/${groupName}/search/dashboard-categories/*
+    - POST|GET /m/${groupName}/search/macros
     # all users have access to the sample dataset
     - DatasetRead * cribl_search_sample
-    - GET /m/${groupName}/system/lookups/*
-    - GET /m/${groupName}/system/lookups
+    - '* /m/${groupName}/system/lookups/*'
+    - '* /m/${groupName}/system/lookups'
     # required by lookups
+    - GET /m/${groupName}/search/srr/exportToLookup
     - GET /m/${groupName}/pipelines
     - GET /m/${groupName}/search/dashboards
     - GET /m/${groupName}/search/query
@@ -353,6 +365,11 @@ SearchBase:
     # usage groups
     - GET /m/${groupName}/search/usage-groups
     - GET /m/${groupName}/system/search-limits
+    # Cribl lake read only access
+    - LakeRead default *
+    # UI metrics
+    - POST /m/${groupName}/search/ui-metrics
+    - POST /m/${groupName}/search/dashboards
   description: Building block for Search Policies
 SearchMaintainer:
   args:
@@ -368,14 +385,11 @@ SearchMaintainer:
     - '* /m/${groupName}/lib/grok/*'
     - '* /m/${groupName}/lib/regex'
     - '* /m/${groupName}/lib/regex/*'
-    - '* /m/${groupName}/system/lookups/*'
-    - '* /m/${groupName}/system/lookups'
     - '* /m/${groupName}/search/dashboard-categories'
     - '* /m/${groupName}/search/dashboard-categories/*'
     - GET /m/${groupName}/search/dataset-providers
     - POST /m/${groupName}/search/dataset-providers
     - POST /m/${groupName}/search/datasets
-    - POST /m/${groupName}/search/dashboards
   description: Can create, configure, view, and modify datasets, dataset providers, dashboards, and settings like datatypes
 MaintainBase:
   args:
@@ -406,4 +420,32 @@ DashboardRead:
     - GET /m/${groupName}/search/dashboards/${dashboardId}
     - GET /m/${groupName}/search/dashboards/${dashboardId}/*
   description: Can view and use the dashboard
+  title: Read Only
+MacroMaintain:
+  args:
+    - groupName
+    - macroId
+  template:
+    - '* /m/${groupName}/search/macros/${macroId}'
+    - '* /m/${groupName}/search/macros/${macroId}/*'
+    - MaintainBase search
+  description: Members with this policy own the macro and can freely edit or delete it
+  title: Maintainer
+MacroRead:
+  args:
+    - groupName
+    - macroId
+  template:
+    - GET /m/${groupName}/search/macros/${macroId}
+    - GET /m/${groupName}/search/macros/${macroId}/*
+  description: Members with this policy can view and use the macro
+  title: Read Only
+LakeRead:
+  args:
+    - lakeId
+    - datasetId
+  template:
+    - GET /products/lake/lakes/${lakeId}/datasets
+    - GET /products/lake/lakes/${lakeId}/datasets/${datasetId}
+  description: Can view and use a Lake Dataset
   title: Read Only

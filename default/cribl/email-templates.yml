@@ -23,6 +23,7 @@ html: |
                              <td style="border-radius: 6px;">
                                 <br>
                                 <p class="paragraph" style="white-space: pre-wrap; font-family: Helvetica, Arial, 'sans-serif'; font-size: 14px; padding: 0px 24px 0px 24px; line-height: 22px; 5px; color: #262626" >${body}</p>
+                                ${dataTable}
                                 <p class="paragraph" style="font-family: Helvetica, Arial, 'sans-serif'; font-size: 14px; padding: 0px 24px 0px 24px; line-height: 22px; 5px; color: #262626" >  
                                   ${workspace ? 'Workspace: ' + workspace + '<br>' : ''}
                                   ${organization ? 'Organization: ' + organization + '<br>' : ''}
@@ -65,6 +66,97 @@ html: |
         </table>
      </body>
   </html>
+result: |
+  <table>
+   <tbody>
+      <tr>
+         <td>
+         <div>
+            <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+            <div style="margin:0px auto;max-width:600px;">
+               <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+               <tbody>
+                  <tr>
+                     <td style="direction:ltr;font-size:0px;padding:4px 0;text-align:left;">
+                     <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:160px;" ><![endif]-->
+                     <div class="mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top; width: 140px !important; max-width: 160px;">
+                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                           <tbody>
+                           <tr>
+                              <td align="center" vertical-align="middle" style="font-size:0px;padding:4px 0;word-break:break-word;">
+                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
+                                 <tr>
+                                    <td align="center" bgcolor="#1890FF" role="presentation" style="border:none;border-radius:3px;cursor:auto;mso-padding-alt:8px 16px;background:#1890FF;" valign="middle">
+                                       <p style="display:inline-block;background:#1890FF;color:white;font-family:Helvetica;font-size:14px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:8px 16px;mso-padding-alt:0px;border-radius:3px;">
+                                       <a href="${resultsUrl}" style="font-family: Helvetica, Arial, 'sans-serif'; color: #FFFFFF; text-decoration:none; padding: 0; display: inline-block;">View All Events</a>
+                                       </p>
+                                    </td>
+                                 </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                     <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:120px;" ><![endif]-->
+                     <div class="mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%; width: 110px !important; max-width: 120px;">
+                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                           <tbody>
+                           <tr>
+                              <td align="center" vertical-align="middle" style="font-size:0px;padding:4px 0;word-break:break-word;">
+                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;line-height:100%;">
+                                 <tr>
+                                    <td align="center" bgcolor="#FFFFFF" role="presentation" style="border:solid 1px #d9d9d9
+                                                                                                   ;border-radius:3px;cursor:auto;mso-padding-alt:8px 16px;background:#FFFFFF;" valign="middle">
+                                       <p style="display:inline-block;background:#FFFFFF;color:#000000;font-family:Helvetica;font-size:14px;font-weight:normal;line-height:120%;margin:0;text-decoration:none;text-transform:none;padding:8px 16px;mso-padding-alt:0px;border-radius:3px;">
+                                       <a href="https://www.cribl.cloud" style="font-family: Helvetica, Arial, 'sans-serif'; color: #000000; text-decoration:none; padding: 0; display: inline-block;">Go to Cribl</a>
+                                       </p>
+                                    </td>
+                                 </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                     <!--[if mso | IE]></td></tr></table><![endif]-->
+                     </td>
+                  </tr>
+               </tbody>
+               </table>
+            </div>
+            <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+            <div style="margin:0px auto;max-width:600px;">
+               <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+               <tbody>
+                  <tr>
+                     <td style="direction:ltr;font-size:0px;padding:8px 0;text-align:center;">
+                     <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
+                     <div class="mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top; width: 100% !important; max-width: 100%;">
+                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                           <tbody>
+                           <tr>
+                              <td align="left" style="font-size:0px;padding:8px;word-break:break-word;">
+                                 <table cellpadding="0" cellspacing="0" width="100%" border="0" style="color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:12px;line-height:22px;table-layout:fixed;width:100%;border:none; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                 ${table_header}
+                                 ${table_rows}
+                                 </table>
+                              </td>
+                           </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                     <!--[if mso | IE]></td></tr></table><![endif]-->
+                     </td>
+                  </tr>
+               </tbody>
+               </table>
+            </div>
+         </div>
+         </td>
+      </tr>
+   </tbody>
+  </table>
 attachments:
   - filename: __cribl_logo.png
     cid: cribl_logo

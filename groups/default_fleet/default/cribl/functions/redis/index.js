@@ -14,7 +14,10 @@ exports.init = async (opt) => {
   const { Redis } = C.internal;
   client = new Redis();
   await client.init(conf);
-  client.connect().catch(()=>{});
+  // Maintain backward compatibility with 4.5.1
+  // connect is not present on the event processor class but is present on
+  // the RedisClient class which was formerly returned in 4.5.1
+  client.connect?.()?.catch(()=>{});
 };
 
 exports.process = (event) => {

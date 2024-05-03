@@ -51,10 +51,6 @@ fieldSummaryMaxNestedDepth: 3
 # Format: <number>
 fieldSummaryMaxFields: 200
 
-# How frequently the search job reaper runs.
-# Format: <number><s|m|h|d|w>
-searchJobReaperPeriod: 15m
-
 # Object store cache TTL
 # This controls for how long we keep object cache files
 # Format: <number><s|m|h|d|w>

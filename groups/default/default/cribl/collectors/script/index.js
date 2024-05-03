@@ -83,7 +83,7 @@ function getTypeFromCode(code) {
 }
 const STDERR_SIZE = 1024;
 exports.collect = async (collectible, job) => {
-  const env = { ...process.env, CRIBL_COLLECT_ARG: collectible.source, ...envVars };
+  const env = { ...process.env, CRIBL_COLLECT_ARG: collectible.source, ...envVars, EARLIEST: conf.earliest, LATEST: conf.latest };
   job.logger().debug('starting collect script', { source: collectible.source })
   const proc = spawn(conf.shell || '/bin/bash', { env });
   proc.stdin.end(conf.collectScript);

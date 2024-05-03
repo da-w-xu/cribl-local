@@ -76,7 +76,8 @@
     "ui:widget" : "JsInput"
   },
   "path": {
-    "ui:widget": "JsInput"
+    "ui:widget": "JsInput",
+    "ui:options": "{extraDescription: collector && collector.conf && !collector.conf.path ? [{content: 'Caution: If a path is not set, all contents of the specified S3 bucket will be collected.', alertProps: {type: 'warning', showIcon: true}}] : []}"
   },
   "assumeRoleArn": {
     "ui:placeholder": "Enter AssumeRole ARN."

@@ -6,7 +6,8 @@
       "url": "/products/lake/lakes/default/datasets",
       "ignoreContext": true,
       "valueProp": "id",
-      "labelProp": "id"
+      "labelProp": "id",
+      "createType": "lakeDataset"
     }
   }
 }

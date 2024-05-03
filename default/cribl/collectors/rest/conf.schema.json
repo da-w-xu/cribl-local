@@ -15,9 +15,8 @@
         "discoverType": {
           "type": "string",
           "title": "Discover type",
-          "description": "Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task.",
+          "description": "Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task.",
           "enum": [ "http", "json", "list", "none" ],
-          "enumNames": [ "HTTP Request", "JSON Response", "Item List" ,"None" ],
           "default": "none"
         }
       },
@@ -33,13 +32,12 @@
                 "discoverUrl": {
                   "type": "string",
                   "title": "Discover URL",
-                  "description": "Expression to derive URL to use for the Discover operation (can be a constant).",
+                  "description": "URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL.",
                   "jsExpression": true
                 },
                 "discoverMethod": {
                   "type": "string",
                   "title": "Discover method",
-                  "description": "Discover HTTP method.",
                   "enum": [ "get", "post", "post_with_body", "other" ],
                   "enumNames": [ "GET", "POST", "POST with Body", "Other" ],
                   "default": "get"
@@ -49,7 +47,6 @@
                 "discoverBody": {},
                 "discoverRequestHeaders": {
                   "title": "Discover headers",
-                  "description": "Optional discover request headers.",
                   "type": "array",
                   "items": {
                     "type": "object",
@@ -57,13 +54,12 @@
                     "properties": {
                       "name": {
                         "type": "string",
-                        "title": "Name",
-                        "description": "Header name."
+                        "title": "Name"
                       },
                       "value": {
                         "type": "string",
                         "title": "Value",
-                        "description": "JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.",
+                        "description": "JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.",
                         "jsExpression": true,
                         "encrypt": true
                       }
@@ -73,7 +69,7 @@
                 "discoverDataField": {
                   "type": "string",
                   "title": "Discover data field",
-                  "description": "Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."
+                  "description": "Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."
                 }
               },
               "dependencies" : {
@@ -86,7 +82,6 @@
                         },
                         "discoverRequestParams": {
                           "title": "Discover parameters",
-                          "description": "Optional discover request parameters.",
                           "type": "array",
                           "items": {
                             "type": "object",
@@ -97,13 +92,12 @@
                             "properties": {
                               "name": {
                                 "title": "Name",
-                                "type": "string",
-                                "description": "Parameter name."
+                                "type": "string"
                               },
                               "value": {
                                 "title": "Value",
                                 "type": "string",
-                                "description": "JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.",
+                                "description": "JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.",
                                 "jsExpression": true
                               }
                             }
@@ -118,7 +112,6 @@
                         },
                         "discoverRequestParams": {
                           "title": "Discover parameters",
-                          "description": "Optional discover request parameters.",
                           "type": "array",
                           "items": {
                             "type": "object",
@@ -129,13 +122,12 @@
                             "properties": {
                               "name": {
                                 "title": "Name",
-                                "type": "string",
-                                "description": "Parameter name."
+                                "type": "string"
                               },
                               "value": {
                                 "title": "Value",
                                 "type": "string",
-                                "description": "JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.",
+                                "description": "JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.",
                                 "jsExpression": true
                               }
                             }
@@ -152,7 +144,7 @@
                         "discoverBody": {
                           "type": "string",
                           "title": "Discover POST body",
-                          "description": "Template for POST body to send with the discover request. To reference global variables or functions, use template params: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`.",
+                          "description": "Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`",
                           "jsExpression": true
                         }
                       }
@@ -166,17 +158,16 @@
                         "discoverVerb": {
                           "type": "string",
                           "title": "Discover verb",
-                          "description": "DIY HTTP verb to use with the discover operation."
+                          "description": "Custom HTTP method to use for the Discover operation"
                         },
                         "discoverBody": {
                           "type": "string",
                           "title": "Discover body",
-                          "description": "Template for body to send with the discover request.",
+                          "description": "Template for body to send with the discover request",
                           "jsExpression": true
                         },
                         "discoverRequestParams": {
                           "title": "Discover parameters",
-                          "description": "Optional discover request parameters.",
                           "type": "array",
                           "items": {
                             "type": "object",
@@ -187,13 +178,12 @@
                             "properties": {
                               "name": {
                                 "title": "Name",
-                                "type": "string",
-                                "description": "Parameter name."
+                                "type": "string"
                               },
                               "value": {
                                 "title": "Value",
                                 "type": "string",
-                                "description": "JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.",
+                                "description": "JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.",
                                 "jsExpression": true
                               }
                             }
@@ -214,12 +204,12 @@
                 "manualDiscoverResult": {
                   "type": "string",
                   "title": "Discover result",
-                  "description": "Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."
+                  "description": "Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."
                 },
                 "discoverDataField": {
                   "type": "string",
                   "title": "Discover data field",
-                  "description": "Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"
+                  "description": "Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"
                 }
               }
             },
@@ -232,13 +222,13 @@
                 "itemList": {
                   "type": "array",
                   "title": "Discover items",
-                  "description": "Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters.",
+                  "description": "Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters.",
                   "minItems": 1,
                   "default": [],
                   "items": {
                     "type": "string",
                     "title": "Items",
-                    "description": "List of items to return from discovery."
+                    "description": "List of items to return from discovery"
                   }
                 }
               }
@@ -257,13 +247,12 @@
     "collectUrl": {
       "type": "string",
       "title": "Collect URL",
-      "description": "Expression to derive URL to use for the collect operation (can be a constant).",
+      "description": "URL (constant or JavaScript expression) to use for the Collect operation",
       "jsExpression": true
     },
     "collectMethod": {
       "type": "string",
       "title": "Collect method",
-      "description": "Collect HTTP method.",
       "enum": [ "get", "post", "post_with_body","other"],
       "enumNames": [ "GET", "POST", "POST with Body", "Other"],
       "default": "get"
@@ -273,7 +262,6 @@
     "collectBody": {},
     "collectRequestHeaders": {
       "title": "Collect headers",
-      "description": "Optional collect request headers.",
       "type": "array",
       "items": {
         "type": "object",
@@ -281,13 +269,12 @@
         "properties": {
           "name": {
             "type": "string",
-            "title": "Name",
-            "description": "Header Name"
+            "title": "Name"
           },
           "value": {
             "type": "string",
             "title": "Value",
-            "description": "JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.",
+            "description": "JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.",
             "jsExpression": true,
             "encrypt": true
           }
@@ -301,7 +288,6 @@
         "type": {
           "type": "string",
           "title": "Pagination",
-          "description": "Select collect pagination scheme",
           "enum": [ "none", "response_body", "response_header", "response_header_link", "request_offset", "request_page"],
           "enumNames": [ "None", "Response Body Attribute", "Response Header Attribute", "RFC 5988 - Web Linking", "Offset/Limit", "Page/Size"],
           "default": "none"
@@ -323,23 +309,23 @@
                 "type" : { "enum" : ["response_body"] },
                 "attribute": {
                   "type": ["array", "string"],
-                  "title": "Response attribute",
-                  "description": "Name(s) of the attribute(s) within the response that contains next-page information",
+                  "title": "Response attributes",
+                  "description": "Names of attributes within the response that contain next-page information",
                   "items": {
                     "type": "string"
                   }
                 },
                 "maxPages": {
                   "type": "number",
-                  "title": "Max pages",
-                  "description": "The maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages.",
+                  "title": "Page limit",
+                  "description": "Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages.",
                   "default": 50,
                   "minimum": 0
                 },
                 "lastPageExpr": {
                   "type": "string",
                   "title": "Last-page expression",
-                  "description": "Optional JS expression used to determine when the last page has been reached. The values tested by this expression must be present in the Response attributes section above. Example: morePages === false.",
+                  "description": "JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section.",
                   "jsExpression": true
                 }
               }
@@ -350,16 +336,16 @@
                 "type" : { "enum" : ["response_header"] },
                 "attribute": {
                   "type": ["array", "string"],
-                  "title": "Response attribute",
-                  "description": "Name(s) of the header attribute(s) that contain next-page information",
+                  "title": "Response attributes",
+                  "description": "Names of attributes within the response that contain next-page information",
                   "items": {
                     "type": "string"
                   }
                 },
                 "maxPages": {
                   "type": "number",
-                  "title": "Max pages",
-                  "description": "The maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages.",
+                  "title": "Page limit",
+                  "description": "Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages.",
                   "default": 50,
                   "minimum": 0
                 }
@@ -372,18 +358,18 @@
                 "nextRelationAttribute": {
                   "type": "string",
                   "title": "Next page relation name",
-                  "description": "Relation name used in the link header that refers to the next page in the result set. In this example link header, rel=\"next\" to the next page of results: <https://myHost/curPage>; rel=\"self\" <https://myHost/nextPage>; rel=\"next\"",
+                  "description": "Relation name used in the link header that refers to the next page in the result set. Example: rel=\"next\" refers to the next page of results: <https://myHost/nextPage>; rel=\"next\"",
                   "default": "next"
                 },
                 "curRelationAttribute": {
                   "type": "string",
                   "title": "Current page relation name",
-                  "description": "Optional relation name used in the link header that refers to the current result set. In this example link header, rel=\"self\" refers to the current page of results: <https://myHost/curPage>; rel=\"self\" <https://myHost/nextPage>; rel=\"next\""
+                  "description": "Relation name used in the link header that refers to the current result set. Example: rel=\"self\" refers to the current page of results: <https://myHost/curPage>; rel=\"self\" "
                 },
                 "maxPages": {
                   "type": "number",
-                  "title": "Max pages",
-                  "description": "The maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages.",
+                  "title": "Page limit",
+                  "description": "Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages.",
                   "default": 50,
                   "minimum": 0
                 }
@@ -396,7 +382,7 @@
                 "offsetField": {
                   "type": "string",
                   "title": "Offset field name",
-                  "description": "Query string parameter that sets the index from which to begin returning records. E.g.: /api/v1/query?term=cribl&limit=100&offset=0",
+                  "description": "Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0",
                   "default": "offset"
                 },
                 "offset": {
@@ -410,13 +396,13 @@
                 "limitField": {
                   "type": "string",
                   "title": "Limit field name",
-                  "description": "Query string parameter to set the number of records retrieved per request. E.g.: /api/v1/query?term=cribl&limit=100&offset=0",
+                  "description": "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0",
                   "default": "limit"
                 },
                 "limit": {
                   "type": "number",
-                  "title": "Limit",
-                  "description": "Maximum number of records to collect per request.",
+                  "title": "Record limit",
+                  "description": "Maximum number of records to collect per request",
                   "default": 50,
                   "minimum": 1
                 },
@@ -426,19 +412,19 @@
                 "totalRecordField": {
                   "type": "string",
                   "title": "Total record count field name",
-                  "description": "Identifies the attribute in the response that contains the total number of records for the query."
+                  "description": "Name of the attribute in the response that contains the total number of records for the query"
                 },
                 "maxPages": {
                   "type": "number",
-                  "title": "Max pages",
-                  "description": "The maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages.",
+                  "title": "Page limit",
+                  "description": "Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages.",
                   "default": 50,
                   "minimum": 0
                 },
                 "zeroIndexed": {
                   "type": "boolean",
                   "title": "Zero-based index",
-                  "description": "Toggle to Yes to indicate that the first record in the requested data is at index 0. The default (No) indicates index 1.",
+                  "description": "Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1.",
                   "default": false
                 }
               }
@@ -450,7 +436,7 @@
                 "pageField": {
                   "type": "string",
                   "title": "Page number field name",
-                  "description": "Query string parameter that sets the page index to be returned. E.g.: /api/v1/query?term=cribl&page_size=100&page_number=0",
+                  "description": "Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0",
                   "default": "page"
                 },
                 "page": {
@@ -464,13 +450,13 @@
                 "sizeField": {
                   "type": "string",
                   "title": "Page size field name",
-                  "description": "Query string parameter to set the number of records retrieved per request. E.g.: /api/v1/query?term=cribl&page_size=100&page_number=0",
+                  "description": "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&page_size=100&page_number=0",
                   "default": "size"
                 },
                 "size": {
                   "type": "number",
-                  "title": "Page size",
-                  "description": "Maximum number of records to collect per page.",
+                  "title": "Record limit",
+                  "description": "Maximum number of records to collect per page",
                   "default": 50,
                   "minimum": 1
                 },
@@ -480,24 +466,24 @@
                 "totalPageField": {
                   "type": "string",
                   "title": "Total page count field name",
-                  "description": "The name of the attribute in the response that contains the total number of pages for the query."
+                  "description": "Name of the attribute in the response that contains the total number of pages for the query"
                 },
                 "totalRecordField": {
                   "type": "string",
                   "title": "Total record count field name",
-                  "description": "Identifies the attribute in the response that contains the total number of records for the query."
+                  "description": "Name of the attribute in the response that contains the total number of records for the query"
                 },
                 "maxPages": {
                   "type": "number",
-                  "title": "Max pages",
-                  "description": "The maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages.",
+                  "title": "Page limit",
+                  "description": "Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages.",
                   "default": 50,
                   "minimum": 0
                 },
                 "zeroIndexed": {
                   "type": "boolean",
                   "title": "zero-based index",
-                  "description": "Toggle to Yes to indicate that the first page in the requested data is at index 0. The default (No) indicates index 1.",
+                  "description": "Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1.",
                   "default": false
                 }
               }
@@ -509,14 +495,14 @@
     "authentication": {
       "type": "string",
       "title": "Authentication",
-      "description": "Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers.",
-      "enum": ["none", "basic", "basicSecret", "login", "loginSecret", "oauth", "oauthSecret"],
+      "description": "Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers.",
+      "enum": ["none", "basic", "basicSecret", "login", "loginSecret", "oauth", "oauthSecret", "google_oauth", "google_oauthSecret"],
       "default": "none"
     },
     "timeout" : {
       "type": "number",
       "title": "Request timeout (secs)",
-      "description": "HTTP request inactivity timeout, use 0 to disable",
+      "description": "HTTP request inactivity timeout. Use 0 to disable.",
       "minimum": 0,
       "maximum": 1800,
       "default": 0
@@ -524,26 +510,40 @@
     "useRoundRobinDns": {
       "type":"boolean",
       "title": "Round-robin DNS",
-      "description": "Enable to use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order.",
+      "description": "Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order.",
       "default": false
     },
     "disableTimeFilter": {
       "type": "boolean",
       "title": "Disable time filter",
-      "description": "Used to disable collector event time filtering when a date range is specified.",
+      "description": "Disable Collector event time filtering when a date range is specified",
       "default": false
+    },
+    "decodeUrl": {
+      "type": "boolean",
+      "title": "Decode URL",
+      "description":
+        "Decode the URL before sending requests (including pagination requests)",
+      "default": true
     },
     "rejectUnauthorized": {
       "type": "boolean",
       "title": "Reject unauthorized certificates",
       "description":
-        "Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates).",
+        "Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)",
+      "default": false
+    },
+    "captureHeaders": {
+      "type": "boolean",
+      "title": "Capture response headers",
+      "description":
+        "Enable to add request headers to the resHeaders field under the __collectible object",
       "default": false
     },
     "safeHeaders": {
       "type": "array",
       "title": "Safe headers",
-      "description": "List of headers that are safe to log in plain text.",
+      "description": "List of headers that are safe to log in plain text",
       "default": [],
       "items": {
         "type": "string"
@@ -556,7 +556,7 @@
         "type": {
           "type": "string",
           "title": "Retry type",
-          "description": "The algorithm to use when performing HTTP retries",
+          "description": "Algorithm to use when performing HTTP retries",
           "enum": [ "none", "backoff", "static" ],
           "enumNames": [ "Disabled", "Backoff", "Static" ],
           "default": "backoff"
@@ -592,8 +592,8 @@
                 },
                 "limit": {
                   "type": "number",
-                  "title": "Max retries",
-                  "description": "The maximum number of times to retry a failed HTTP request",
+                  "title": "Retry limit",
+                  "description": "Maximum number of times to retry a failed HTTP request",
                   "minimum": 0,
                   "maximum": 20,
                   "default": 5
@@ -612,7 +612,7 @@
                 "enableHeader": {
                   "type": "boolean",
                   "title": "Honor Retry-After header",
-                  "description": "When toggled to Yes (the default), honors any Retry-After header that specifies a delay no longer than 20 seconds after the request that needs to be retried. (Retry-After headers that specify longer delays will always be ignored.) Toggle to No to ignore all Retry-After headers.",
+                  "description": "Honor any Retry-After header that specifies a delay (in seconds) no longer than 20 seconds after the retry request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored.",
                   "default": true
                 }
               }
@@ -633,7 +633,7 @@
                 "limit": {
                   "type": "number",
                   "title": "Max retries",
-                  "description": "The maximum number of times to retry a failed HTTP request",
+                  "description": "Maximum number of times to retry a failed HTTP request",
                   "minimum": 0,
                   "maximum": 20,
                   "default": 5
@@ -641,7 +641,7 @@
                 "multiplier": {
                   "type": "number",
                   "title": "Backoff multiplier",
-                  "description": "Base for exponential backoff, e.g., base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on",
+                  "description": "Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on.",
                   "minimum": 1,
                   "maximum": 20,
                   "default": 2
@@ -660,7 +660,7 @@
                 "enableHeader": {
                   "type": "boolean",
                   "title": "Honor Retry-After header",
-                  "description": "When toggled to Yes (the default), honors any Retry-After header that specifies a delay no longer than 20 seconds after the request that needs to be retried. (Retry-After headers that specify longer delays will always be ignored.) Toggle to No to ignore all Retry-After headers.",
+                  "description": "Honor any Retry-After header that specifies a delay (in seconds) no longer than 20 seconds after the retry request. The delay is limited to 20 seconds, even if the Retry-After header specifies a longer delay. When disabled, all Retry-After headers are ignored.",
                   "default": true
                 }
               }
@@ -702,7 +702,7 @@
                     "stateUpdateExpression": {
                       "type": "string",
                       "title": "State update expression",
-                      "description": "JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state.",
+                      "description": "JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information.",
                       "default": "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}",
                       "jsExpression": true
                     },
@@ -730,7 +730,6 @@
            "collectMethod" : { "enum" :  ["get"] },
            "collectRequestParams": {
              "title": "Collect parameters",
-             "description": "Optional collect request parameters.",
              "type": "array",
              "items": {
                "type": "object",
@@ -738,13 +737,12 @@
                "properties": {
                  "name": {
                    "title": "Name",
-                   "type": "string",
-                   "description": "Parameter name"
+                   "type": "string"
                  },
                  "value": {
                    "title": "Value",
                    "type": "string",
-                   "description": "JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.",
+                   "description": "JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.",
                    "jsExpression": true
                  }
                }
@@ -757,7 +755,6 @@
            "collectMethod" : { "enum" :  ["post"] },
            "collectRequestParams": {
              "title": "Collect parameters",
-             "description": "Optional collect request parameters.",
              "type": "array",
              "items": {
                "type": "object",
@@ -765,13 +762,12 @@
                "properties": {
                  "name": {
                    "title": "Name",
-                   "type": "string",
-                   "description": "Parameter name."
+                   "type": "string"
                  },
                  "value": {
                    "title": "Value",
                    "type": "string",
-                   "description": "JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.",
+                   "description": "JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.",
                    "jsExpression": true
                  }
                }
@@ -786,7 +782,7 @@
            "collectBody": {
              "type": "string",
              "title": "Collect POST body",
-             "description": "Template for POST body to send with the Collect request. Reference global variables, functions, or parameters from the Discover response using template params: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`.",
+             "description": "Template for POST body to send with the Collect request. Reference global variables, functions, or parameters from the Discover response using template params: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`",
              "jsExpression": true
            }
          }
@@ -798,17 +794,16 @@
            "collectVerb": {
              "type": "string",
              "title": "Collect verb",
-             "description": "DIY HTTP verb to use for the collect operation."
+             "description": "Custom HTTP method to use for the Collect operation"
            },
            "collectBody": {
              "type": "string",
              "title": "Collect body",
-             "description": "Template for body to send with the Collect request. Reference global variables, functions, or parameters from the Discover response using template params: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`",
+             "description": "Template for body to send with the Collect request. Reference global variables, functions, or parameters from the Discover response using template parameters: `${C.vars.myVar}`, or `${Date.now()}`, `${param}`",
              "jsExpression": true
            },
            "collectRequestParams": {
              "title": "Collect parameters",
-             "description": "Optional collect request parameters.",
              "type": "array",
              "items": {
                "type": "object",
@@ -816,13 +811,12 @@
                "properties": {
                  "name": {
                    "title": "Name",
-                   "type": "string",
-                   "description": "Parameter name."
+                   "type": "string"
                  },
                  "value": {
                    "title": "Value",
                    "type": "string",
-                   "description": "JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.",
+                   "description": "JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.",
                    "jsExpression": true
                  }
                }
@@ -850,13 +844,11 @@
             "username": {
               "type": "string",
               "title": "Username",
-              "description": "Basic authentication username",
               "encrypt": true
             },
             "password": {
               "type": "string",
               "title": "Password",
-              "description": "Basic authentication password",
               "encrypt": true
             }
           }
@@ -888,22 +880,20 @@
             },
             "username": {
               "type": "string",
-              "title": "Username",
-              "description": "Login username",
+              "title": "Login username",
               "minLength": 1,
               "encrypt": true
             },
             "password": {
               "type": "string",
-              "title": "Password",
-              "description": "Login password",
+              "title": "Login password",
               "minLength": 1,
               "encrypt": true
             },
             "loginBody": {
               "type": "string",
               "title": "POST body",
-              "description": "Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message",
+              "description": "Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message.",
               "default": "`{ \"username\": \"${username}\", \"password\": \"${password}\" }`",
               "jsExpression": true
             },
@@ -921,13 +911,12 @@
             "authHeaderExpr": {
               "type": "string",
               "title": "Authorize expression",
-              "description": "JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login.",
+              "description": "JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login.",
               "default": "`Bearer ${token}`",
               "jsExpression": true
             },
             "authRequestHeaders": {
               "title": "Authentication headers",
-              "description": "Optional authentication request headers.",
               "type": "array",
               "items": {
                 "type": "object",
@@ -935,13 +924,12 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "title": "Name",
-                    "description": "Header name."
+                    "title": "Name"
                   },
                   "value": {
                     "type": "string",
                     "title": "Value",
-                    "description": "JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.",
+                    "description": "JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.",
                     "jsExpression": true,
                     "encrypt": true
                   }
@@ -957,7 +945,7 @@
             "loginUrl": {
               "type": "string",
               "title": "Login URL",
-              "description": "URL to use for login API call, this call is expected to be a POST.",
+              "description": "URL to use for login API call. This call is expected to be a POST.",
               "default": "`https://localhost:9000/api/v1/auth/login`",
               "jsExpression": true
             },
@@ -970,7 +958,7 @@
             "loginBody": {
               "type": "string",
               "title": "POST body",
-              "description": "Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message",
+              "description": "Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message.",
               "default": "`{ \"username\": \"${username}\", \"password\": \"${password}\" }`",
               "jsExpression": true
             },
@@ -988,13 +976,12 @@
             "authHeaderExpr": {
               "type": "string",
               "title": "Authorize expression",
-              "description": "JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login.",
+              "description": "JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login.",
               "default": "`Bearer ${token}`",
               "jsExpression": true
             },
             "authRequestHeaders": {
               "title": "Authentication headers",
-              "description": "Optional authentication request headers.",
               "type": "array",
               "items": {
                 "type": "object",
@@ -1002,13 +989,12 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "title": "Name",
-                    "description": "Header name."
+                    "title": "Name"
                   },
                   "value": {
                     "type": "string",
                     "title": "Value",
-                    "description": "JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.",
+                    "description": "JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.",
                     "jsExpression": true,
                     "encrypt": true
                   }
@@ -1045,20 +1031,20 @@
             "authHeaderExpr": {
               "type": "string",
               "title": "Authorize expression",
-              "description": "JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login.",
+              "description": "JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login.",
               "default": "`Bearer ${token}`",
               "jsExpression": true
             },
             "clientSecretParamName": {
               "type": "string",
               "title": "Client secret parameter",
-              "description": "Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters.",
+              "description": "Defaults to 'client_secret'. Automatically added to request parameters using the value specified.",
               "default": "client_secret"
             },
             "clientSecretParamValue":{
               "type": "string",
               "title": "Client secret value",
-              "description": "Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters",
+              "description": "Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters.",
               "encrypt": true
             },
             "authRequestParams": {
@@ -1071,13 +1057,12 @@
                 "properties": {
                   "name": {
                     "title": "Name",
-                    "type": "string",
-                    "description": "Parameter name."
+                    "type": "string"
                   },
                   "value": {
                     "title": "Value",
                     "type": "string",
-                    "description": "JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.",
+                    "description": "JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.",
                     "jsExpression": true
                   }
                 }
@@ -1085,7 +1070,6 @@
             },
             "authRequestHeaders": {
               "title": "Authentication headers",
-              "description": "Optional authentication request headers.",
               "type": "array",
               "items": {
                 "type": "object",
@@ -1093,13 +1077,12 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "title": "Name",
-                    "description": "Header name."
+                    "title": "Name"
                   },
                   "value": {
                     "type": "string",
                     "title": "Value",
-                    "description": "JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.",
+                    "description": "JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.",
                     "jsExpression": true,
                     "encrypt": true
                   }
@@ -1136,21 +1119,21 @@
             "authHeaderExpr": {
               "type": "string",
               "title": "Authorize expression",
-              "description": "JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login.",
+              "description": "JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login.",
               "default": "`Bearer ${token}`",
               "jsExpression": true
             },
             "clientSecretParamName": {
               "type": "string",
               "title": "Client secret parameter",
-              "description": "Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters.",
+              "description": "Defaults to 'client_secret'. Automatically added to request parameters using the value specified.",
               "default": "client_secret"
             },
             "textSecret": {
               "type": "string",
               "secret": { "type": "text", "target": "clientSecretParamValue" },
               "title": "Client secret value (text secret)",
-              "description": "Select (or create) a text secret that contains the client secret's value."
+              "description": "Select (or create) a text secret that contains the client secret's value"
             },
             "authRequestParams": {
               "title": "Extra authentication parameters",
@@ -1162,13 +1145,12 @@
                 "properties": {
                   "name": {
                     "title": "Name",
-                    "type": "string",
-                    "description": "Parameter name."
+                    "type": "string"
                   },
                   "value": {
                     "title": "Value",
                     "type": "string",
-                    "description": "JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.",
+                    "description": "JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.",
                     "jsExpression": true
                   }
                 }
@@ -1176,7 +1158,6 @@
             },
             "authRequestHeaders": {
               "title": "Authentication headers",
-              "description": "Optional authentication request headers.",
               "type": "array",
               "items": {
                 "type": "object",
@@ -1184,18 +1165,78 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "title": "Name",
-                    "description": "Header name."
+                    "title": "Name"
                   },
                   "value": {
                     "type": "string",
                     "title": "Value",
-                    "description": "JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.",
+                    "description": "JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.",
                     "jsExpression": true,
                     "encrypt": true
                   }
                 }
               }
+            }
+          }
+        },
+        {
+          "required": ["scopes","serviceAccountCredentials","subject"],
+          "properties": {
+            "authentication": {
+              "enum":["google_oauth"]
+            },
+            "scopes": {
+              "type": "array",
+              "title": "Scopes",
+              "description": "Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information.",
+              "minItems": 1,
+              "default": ["https://www.googleapis.com/auth/admin.reports.audit.readonly"],
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "serviceAccountCredentials": {
+              "type": "string",
+              "title": "Service account credentials",
+              "description": "Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right.",
+              "minLength": 1,
+              "encrypt": true
+            },
+            "subject": {
+              "type": "string",
+              "title": "Impersonated account's email address",
+              "description": "Email address of a user account with Super Admin permissions to the resources the collector will retrieve"
+            }
+          }
+        },
+        {
+          "required": ["scopes","textSecret","subject"],
+          "properties": {
+            "authentication": {
+              "enum":["google_oauthSecret"]
+            },
+            "scopes": {
+              "type": "array",
+              "title": "Scopes",
+              "description": "Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information.",
+              "minItems": 1,
+              "default": ["https://www.googleapis.com/auth/admin.reports.audit.readonly"],
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "textSecret": {
+              "type": "string",
+              "secret": { "type": "text", "target": "serviceAccountCredentials" },
+              "title": "Service account credentials (text secret)",
+              "description": "Select (or create) a text secret that contains the Google service account credentials value"
+            },
+            "subject": {
+              "type": "string",
+              "title": "Impersonated account's email address",
+              "description": "Email address of a user account with Super Admin permissions to the resources the collector will retrieve"
             }
           }
         }

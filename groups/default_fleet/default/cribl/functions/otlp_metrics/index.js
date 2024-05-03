@@ -1,11 +1,13 @@
 exports.name = 'OTLP Metrics';
-exports.version = '0.1';
+exports.version = '0.2';
 exports.disabled = false;
 exports.group = 'Formatters';
 exports.sync = true;
 
 const cLogger = C.util.getLogger('func:otlp_metrics');
 const { OtelMetricsFormatter } = C.internal.otel;
+
+const dropMetricsMap = new Map([['info', 'target']]);
 
 const statsInterval = 60000; // 1 minute
 
@@ -43,7 +45,7 @@ exports.init = (opts) => {
   const conf = (opts || {}).conf || {};
   shouldDropNonMetricEvents = conf.dropNonMetricEvents || false;
 
-  metricsFormatter = new OtelMetricsFormatter(cLogger);
+  metricsFormatter = new OtelMetricsFormatter(cLogger, conf.resourceAttributePrefixes);
 
   resetStats();
 
@@ -67,7 +69,7 @@ exports.process = (event) => {
 
   const metricEvent = metricsFormatter?.formatEvent(event);
   if (metricEvent == null) {
-    if (shouldDropNonMetricEvents) {
+    if (shouldDropNonMetricEvents || (event._metric && dropMetricsMap.get(event._metric_type) === event._metric)) {
       numDropped++;
       return null;
     } else {

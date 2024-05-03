@@ -2,209 +2,209 @@
 # This is the master list of configurable features in the product.
 # By default, they are disabled unless the `disabled` option is set to `false`.
 
-api/features:
+api-features:
   disabled: true
-api/leader/resiliency:
+api-leader-resiliency:
   disabled: false
-collector/azure_blob:
+collector-azure-blob:
   disabled: false
-collector/database:
+collector-database:
   disabled: false
-collector/filesystem:
+collector-filesystem:
   disabled: false
-collector/google_cloud_storage:
+collector-google-cloud-storage:
   disabled: false
-collector/rest:
+collector-rest:
   disabled: false
-collector/s3:
+collector-s3:
   disabled: false
-collector/script:
+collector-script:
   disabled: false
-collector/splunk:
+collector-splunk:
   disabled: false
-destination/azure_data_explorer:
+destination-azure-data-explorer:
   disabled: false
-destination/cribl_http:
+destination-cribl-http:
   disabled: false
-destination/cribl_lake:
+destination-cribl-lake:
+  disabled: false
+destination-cribl-tcp:
+  disabled: false
+destination-disk-spool:
+  disabled: false
+destination-elastic-cloud:
+  disabled: false
+destination-exabeam:
+  disabled: false
+destination-filesystem:
+  disabled: false
+destination-filesystem-stage-path:
+  disabled: false
+destination-kafka-protobuf:
   disabled: true
-destination/cribl_tcp:
+destination-security-lake:
   disabled: false
-destination/disk_spool:
-  disabled: false
-destination/elastic_cloud:
-  disabled: false
-destination/exabeam:
-  disabled: false
-destination/filesystem:
-  disabled: false
-destination/filesystem/stagePath:
-  disabled: false
-destination/kafka/protobuf:
+feature-authz-teams:
   disabled: true
-destination/security_lake:
+feature-checkpointing:
+  disabled: true
+feature-copilot-chat:
+  disabled: true
+feature-custom-command:
   disabled: false
+feature-email-notification:
+  disabled: false
+feature-email-notification-cloud-target:
+  disabled: false
+feature-fast-promise:
+  disabled: false
+feature-file-mode-auto:
+  disabled: false
+feature-generic-protobuf:
+  disabled: true
+feature-http2:
+  disabled: true
+feature-kubernetes-explore:
+  disabled: true
 feature-launchdarkly:
   disabled: true
-feature/authz_teams:
+feature-leader-upgrade:
+  disabled: false
+feature-licensing:
+  disabled: false
+feature-no-roles-jwt:
   disabled: true
-feature/checkpointing:
+feature-persistent-queue:
+  disabled: false
+feature-search-pushdown-regex:
+  disabled: false
+feature-search-pushdown-subfields:
+  disabled: false
+feature-search-pushdown-time-from-datatype:
+  disabled: false
+feature-search-usage-groups:
+  disabled: false
+feature-secure-lookup:
   disabled: true
-feature/copilot_chat:
+feature-service-limits:
   disabled: true
-feature/custom_command:
-  disabled: false
-feature/email-notification:
-  disabled: false
-feature/email-notification-cloud-target:
+feature-socket-router:
   disabled: true
-feature/fast_promise:
-  disabled: false
-feature/file-mode-auto:
-  disabled: false
-feature/generic_protobuf:
+feature-sse:
   disabled: true
-feature/http2:
+feature-tcp-pinning-alleviation:
   disabled: true
-feature/kubernetes_explore:
+function-tee:
+  disabled: false
+metadata-aws:
+  disabled: false
+metadata-cribl:
+  disabled: false
+metadata-env:
+  disabled: false
+metadata-kube:
+  disabled: false
+metadata-os:
+  disabled: false
+monitoring-licensing:
+  disabled: false
+pack-custom-function:
+  disabled: false
+search-series-result-store:
+  disabled: false
+service-lease-renew:
+  disabled: false
+settings-api-endpoint:
+  disabled: false
+settings-api-tls:
+  disabled: false
+settings-auth:
+  disabled: false
+settings-limits-metrics-directory:
+  disabled: false
+settings-limits-services-limits:
+  disabled: false
+settings-logging-controls:
+  disabled: false
+settings-service-processes:
+  disabled: false
+settings-system-intercom:
+  disabled: false
+source-appscope:
+  disabled: false
+source-appscope-filter:
+  disabled: false
+source-appscope-persistence:
+  disabled: false
+source-azure-blob:
+  disabled: false
+source-confluent-cloud:
+  disabled: false
+source-cribl:
+  disabled: false
+source-cribl-http:
+  disabled: false
+source-cribl-tcp:
+  disabled: false
+source-criblmetrics:
+  disabled: false
+source-crowdstrike:
+  disabled: false
+source-edge-prometheus:
+  disabled: false
+source-edge-prometheus-persistence:
+  disabled: false
+source-eventhub:
+  disabled: false
+source-exec:
+  disabled: false
+source-file:
+  disabled: false
+source-google-pubsub:
+  disabled: false
+source-journal-files:
+  disabled: false
+source-kafka:
+  disabled: false
+source-kinesis:
+  disabled: false
+source-kube-events:
+  disabled: false
+source-kube-logs:
+  disabled: false
+source-kube-metrics:
+  disabled: false
+source-model-driven-telemetry:
+  disabled: false
+source-office365-mgmt:
+  disabled: false
+source-office365-msg-trace:
+  disabled: false
+source-office365-service:
+  disabled: false
+source-prometheus:
+  disabled: false
+source-s3:
+  disabled: false
+source-s3-inventory:
   disabled: true
-feature/leader_upgrade:
+source-splunk-search:
   disabled: false
-feature/licensing:
+source-sqs:
   disabled: false
-feature/no_roles_jwt:
-  disabled: true
-feature/persistent_queue:
+source-system-metrics:
   disabled: false
-feature/search_pushdown_regex:
+source-system-state:
   disabled: false
-feature/search_pushdown_subfields:
+source-win-event-logs:
   disabled: false
-feature/search_pushdown_time_from_datatype:
+source-windows-metrics:
   disabled: false
-feature/search_usage_groups:
+system-diagnostics:
   disabled: false
-feature/secure_lookup:
-  disabled: true
-feature/service_limits:
-  disabled: true
-feature/socket_router:
-  disabled: true
-feature/sse:
-  disabled: true
-feature/tcp_pinning_alleviation:
-  disabled: true
-function/tee:
+system-roles:
   disabled: false
-metadata/aws:
-  disabled: false
-metadata/cribl:
-  disabled: false
-metadata/env:
-  disabled: false
-metadata/kube:
-  disabled: false
-metadata/os:
-  disabled: false
-monitoring/licensing:
-  disabled: false
-pack/custom_function:
-  disabled: false
-search/series_result_store:
-  disabled: false
-service/lease_renew:
-  disabled: false
-settings/api/endpoint:
-  disabled: false
-settings/api/tls:
-  disabled: false
-settings/auth:
-  disabled: false
-settings/limits/metrics_directory:
-  disabled: false
-settings/limits/services_limits:
-  disabled: false
-settings/logging-controls:
-  disabled: false
-settings/service_processes:
-  disabled: false
-settings/system/intercom:
-  disabled: false
-source/appscope:
-  disabled: false
-source/appscope/filter:
-  disabled: false
-source/appscope/persistence:
-  disabled: false
-source/azure_blob:
-  disabled: false
-source/confluent_cloud:
-  disabled: false
-source/cribl:
-  disabled: false
-source/cribl_http:
-  disabled: false
-source/cribl_tcp:
-  disabled: false
-source/criblmetrics:
-  disabled: false
-source/crowdstrike:
-  disabled: false
-source/edge_prometheus:
-  disabled: false
-source/edge_prometheus/persistence:
-  disabled: false
-source/eventhub:
-  disabled: false
-source/exec:
-  disabled: false
-source/file:
-  disabled: false
-source/google_pubsub:
-  disabled: false
-source/journal_files:
-  disabled: false
-source/kafka:
-  disabled: false
-source/kinesis:
-  disabled: false
-source/kube_events:
-  disabled: false
-source/kube_logs:
-  disabled: false
-source/kube_metrics:
-  disabled: false
-source/model_driven_telemetry:
-  disabled: false
-source/office365_mgmt:
-  disabled: false
-source/office365_msg_trace:
-  disabled: false
-source/office365_service:
-  disabled: false
-source/prometheus:
-  disabled: false
-source/s3:
-  disabled: false
-source/s3_inventory:
-  disabled: true
-source/splunk_search:
-  disabled: false
-source/sqs:
-  disabled: false
-source/system_metrics:
-  disabled: false
-source/system_state:
-  disabled: false
-source/win_event_logs:
-  disabled: false
-source/windows_metrics:
-  disabled: false
-system/diagnostics:
-  disabled: false
-system/roles:
-  disabled: false
-system/users:
+system-users:
   disabled: false
 
     

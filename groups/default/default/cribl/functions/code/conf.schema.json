@@ -31,7 +31,7 @@
       "type": "boolean",
       "title": "Use unique log channel",
       "description": "If enabled, logs from this function will be sent to a unique channel in the form `func:code:${pipelineName}:${functionIndex}. Turn off to use the generic `func:code` log channel instead.",
-      "default": false
+      "default": true
     }
   }
 }

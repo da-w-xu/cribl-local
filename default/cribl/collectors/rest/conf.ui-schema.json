@@ -21,11 +21,24 @@
         "authRequestParams": "authRequestParams",
         "clientSecretParamName": "clientSecretParamName",
         "clientSecretParamValue": "clientSecretParamValue",
-        "textSecret": "textSecret"
+        "textSecret": "textSecret",
+        "subject": "subject",
+        "scopes": "scopes",
+        "serviceAccountCredentials": "serviceAccountCredentials"
       }
     }
   },
   "discovery" : {
+    "discoverType": {
+      "ui:options": {
+        "uiEnumOptions": [
+          { "value": "http", "label": "HTTP Request", "description": "Make a REST call to dynamically get Discover results" },
+          { "value": "json", "label": "JSON Response", "description": "Manually define Discover results as a JSON object" },
+          { "value": "list", "label": "Item List", "description": "Enumerate Discover results as a list of strings" },
+          { "value": "none", "label": "None", "description": "No Discover operation required" }
+        ]
+      }
+    },
     "discoverUrl": {
       "ui:widget": "JsInput", "ui:placeholder": "Enter URL expression for the discover operation", "ui:options": { "columnWidth": "60%" }
     },
@@ -108,7 +121,9 @@
         {"value": "login", "label": "Login"},
         {"value": "loginSecret", "label": "Login (credentials secret)"},
         {"value": "oauth", "label": "OAuth"},
-        {"value": "oauthSecret", "label": "OAuth (text secret)"}
+        {"value": "oauthSecret", "label": "OAuth (text secret)"},
+        {"value": "google_oauth", "label": "Google service account OAuth"},
+        {"value": "google_oauthSecret", "label": "Google service account OAuth (text secret)"}
       ]
     }
   },
@@ -160,10 +175,12 @@
       "value": { "ui:widget": "JsInput", "ui:placeholder": "Enter header value", "ui:options": { "columnWidth": "60%" } }
     }
   },
-  "timeout": {"ui:options": {"inline": true, "width": "20%"}},
-  "useRoundRobinDns": {"ui:options": {"inline": true, "width": "20%"}},
-  "disableTimeFilter": {"ui:options": {"inline": true, "width": "20%"}},
-  "rejectUnauthorized": {"ui:options": {"inline": true, "width": "40%"}},
+  "timeout": {"ui:options": {"inline": true, "width": "15%"}},
+  "useRoundRobinDns": {"ui:options": {"inline": true, "width": "15%"}},
+  "disableTimeFilter": {"ui:options": {"inline": true, "width": "15%"}},
+  "decodeUrl": {"ui:options": {"inline": true, "width": "15%"}},
+  "rejectUnauthorized": {"ui:options": {"inline": true, "width": "20%"}},
+  "captureHeaders": {"ui:options": {"inline": true, "width": "20%"}},
   "safeHeaders": { "ui:field": "Tags", "ui:placeholder": "Header names" },
   "retryRules": {
     "codes": {
@@ -175,6 +192,11 @@
     "interval": { "ui:options": { "inline": true } },
     "multiplier": { "ui:options": { "inline": true } },
     "limit": { "ui:options": { "inline": true } }
+  },
+  "serviceAccountCredentials": {
+    "ui:widget": "TextareaUpload",
+    "rows": 20,
+    "ui:forceRender": true
   },
   "ui:options": {
     "groups": {
@@ -226,8 +248,11 @@
           "authRequestParams",
           "tokenRespAttribute",
           "authHeaderKey",
-          "authHeaderExpr",
-          "authRequestHeaders"
+          "authRequestHeaders",
+          "scopes",
+          "serviceAccountCredentials",
+          "subject",
+          "authHeaderExpr"
         ]
       },
       "retries": {

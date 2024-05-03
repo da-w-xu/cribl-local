@@ -31,43 +31,32 @@ let group,
 const { RestVerb } = C.internal.HttpUtils;
 const { createRequest } = C.internal.kusto;
 
-const BulletinMessage = (now, notificationId, message, searchId, savedQueryId, searchUrl, tenantId) => {
+const createNotification = (now, notificationId, message, results, searchId, savedQueryId, searchUrl, tenantId) => {
   return {
     id: `SEARCH_NOTIFICATION_${notificationId}_${now}`,
     severity: 'info',
-    text: message,
+    _raw: message,
     title: `Scheduled search notification`,
-    time: now,
+    _time: now,
+    now,
     group,
+    searchId,
+    savedQueryId,
+    searchResultsUrl: searchUrl,
+    notificationId,
+    resultSet: results,
+    tenantId,
+    message,
     // search notification condition expects metadata to be populated
-    metadata: [
+    origin_metadata:
       {
         itemType: 'link',
         id: searchId,
         type: 'search',
         product: 'search',
-      },
-      {
-        key: 'searchId',
-        value: searchId,
-      },
-      {
-        key: 'savedQueryId',
-        value: savedQueryId,
-      },
-      {
-        key: 'searchResultsUrl',
-        value: searchUrl,
-      },
-      {
-        key: '__bulletinIgnore',
-        value: true,
-      },
-      {
-        key: 'tenantId',
-        value: tenantId,
-      },
-    ]
+        // wipe the groupId since the search link doesn't render properly with it.
+        groupId: ''
+      }
   };
 };
 const comparators =  [">", "<", "===", "!==", ">=", "<="];
@@ -118,7 +107,7 @@ exports.process = async (event) => {
   }
   if (event.__signalEvent__ != null || (triggerType === 'custom' && !triggerExpression.evalOn(event))) return event;
   triggerCounter++;
-  if (notificationResults.length < resultsLimit) notificationResults.push(event);
+  if (notificationResults.length < resultsLimit) notificationResults.push(event.asObject());
   return event;
 };
 /**
@@ -139,39 +128,46 @@ async function sendNotification(notificationResults) {
     timestamp: now.toISOString(),
     tenantId,
   });
-  const notificationBulletinEvent = BulletinMessage(
+  const notificationEvent = createNotification(
       now.getTime(),
       notificationId,
       message,
+      notificationResults,
       searchId,
       savedQueryId,
       searchUrl,
       tenantId
     );
-  await sendBulletinMessage(
-    notificationBulletinEvent
+  await sendNotificationMessage(
+    notificationEvent
   );
 }
 
-function sanitizeMsg(bulletinMessage) {
-  const copy = Object.assign({}, bulletinMessage);
-  // remove results from log message
-  const [_, ...rest] = copy.metadata.reverse();
-  copy.metadata =rest;
-  return copy;
-}
-async function sendBulletinMessage(bulletinMessage) {
-  try {
-    logger.debug('Sending message', { bulletinMessage: sanitizeMsg(bulletinMessage) });
-    const opts = {
-      url: messagesEndpoint,
-      method: RestVerb.POST,
-      payload: bulletinMessage,
-    };
-    const rv = await createRequest(opts).addAuthToken(authToken).run();
-    await rv.readAsJSON();
-  } catch (error) {
-    logger.error('Error posting notification message', { error });
+
+async function sendNotificationMessage(notiMessage) {
+  const maxRetries = 3;
+  const retryDelay = 1000;
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      logger.debug('Sending message', { notiMessage: notiMessage });
+      const opts = {
+        url: messagesEndpoint,
+        method: RestVerb.POST,
+        payload: notiMessage,
+      };
+      const rv = await createRequest(opts).addAuthToken(authToken).run();
+      await rv.readAsJSON();
+      return;
+    } catch (error) {
+      logger.error('Error posting notification message', { error });
+      logger.error('Sending attempt failed.');
+      if (attempt < maxRetries) {
+        logger.info(`Retrying... Attempt ${attempt + 1} of ${maxRetries}`);
+        await new Promise(resolve => setTimeout(resolve, retryDelay));
+      } else {
+        throw new Error(`Failed to send bulletin message after ${maxRetries} attempts`);
+      }
+    }
   }
 }
 

@@ -33,7 +33,6 @@ system:
       limit: 50000
       description: Max number of events that could be returned by a single job.
       type: maxResultsPerSearch
-  users: {}
 default:
   id: default
   enabled: true

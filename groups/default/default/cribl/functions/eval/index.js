@@ -66,6 +66,27 @@ function getAccessor(fieldName) {
   return fieldName;
 }
 
+function getKeepPatterns(keepPatterns) {
+  if (keepPatterns.length < 1)
+    return [];
+
+  const modifiedPaths = [];
+  keepPatterns.forEach( (field) => {
+    const val = field.trim();
+    if ( val.length < 1 ) return;
+
+    let accPath = '';
+    val.split('.').forEach( (path) => {
+      if ( path.length > 0 )  {
+        accPath = accPath.length > 0 ? `${accPath}.${path}` : path;
+        if (!modifiedPaths.includes(accPath))
+          modifiedPaths.push(accPath);
+      }
+    });
+  });
+  return modifiedPaths;
+}
+
 exports.init = (opts) => {
   const conf = opts.conf;
   fields2add = [];
@@ -94,7 +115,7 @@ exports.init = (opts) => {
     }
   });
 
-  const keepPatterns = (conf.keep || []).map(k => k.trim()).filter(k => k.length);
+  const keepPatterns = getKeepPatterns(conf.keep || []);
   if (keepPatterns.length > 0) {
     WL2keep = new C.util.WildcardList(keepPatterns);
   }

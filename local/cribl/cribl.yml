@@ -1,0 +1,11 @@
+auth:
+  type: local
+  filter_type: email_whitelist
+git:
+  gitOps: none
+  authType: none
+  autoAction: none
+  timeout: 60000
+  strictHostKeyChecking: true
+  remote: https://github.com/da-w-xu/cribl-local.git
+  defaultCommitMessage: first commit

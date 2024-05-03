@@ -24,6 +24,9 @@ function getAccessor(fieldName) {
 
 function rename(currentField, newField, context) {
   if (typeof currentField !== 'object' || typeof newField !== 'object') return;
+  // if renaming to the same name do nothing
+  if (currentField.path === newField.path) return;
+
   const val = currentField.get(context);
   // There's no reason to proceed if the source is already undefined
   if (val === undefined) return;
