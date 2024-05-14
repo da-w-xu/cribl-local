@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "title": "",
+  "properties": {
+    "resourceAttributePrefixes": {
+      "type": "array",
+      "title": "Resource attribute prefixes",
+      "description": "The prefixes of top-level attributes to add as resource attributes. Each attribute must match the regex pattern `^[a-zA-Z0-9]+$`. Use Eval to copy nested attributes to the top level for matching.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9]+$"
+      },
+      "default": ["service", "system", "telemetry", "k8s", "cloud", "host", "process"]
+    },
+    "dropNonMetricEvents": {
+      "type": "boolean",
+      "title": "Drop non-metric events",
+      "description": "Determines whether or not to drop any non-metric events.",
+      "default": false
+    }
+  }
+}

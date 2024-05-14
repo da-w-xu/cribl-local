@@ -4,7 +4,7 @@
   "properties": {
     "ignoreFields": {
       "title": "Ignore fields",
-      "description": "Fields to NOT numerify. Takes precedence over 'Include expression' when set.",
+      "description": "Fields to NOT numerify. Takes precedence over 'Include expression' when set. Supports wildcards. A '!' before field name(s) means: numerify all fields EXCEPT these. For syntax details, see [Wildcard Lists](https://docs.cribl.io/stream/introduction-reference/#wildcard-lists).",
       "type": "array",
       "items": {
         "type": "string",

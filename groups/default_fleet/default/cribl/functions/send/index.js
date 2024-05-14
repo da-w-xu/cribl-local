@@ -103,6 +103,9 @@ exports.unload = () => {
  */
 async function send(evt, destination, tee = false) {
   if (tee) {
+    // quick out preventing sending internally generated Cribl signal messages to destination
+    if (evt.__signalEvent__) return evt;
+
     const cloned = evt.__clone();
     await destination.send(cloned);
     return evt;

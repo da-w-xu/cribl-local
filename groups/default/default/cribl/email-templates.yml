@@ -22,7 +22,7 @@ html: |
                           <tr style="border-radius: 6px;">
                              <td style="border-radius: 6px;">
                                 <br>
-                                <p class="paragraph" style="white-space: pre-wrap; font-family: Helvetica, Arial, 'sans-serif'; font-size: 14px; padding: 0px 24px 0px 24px; line-height: 22px; 5px; color: #262626" >${body}</p>
+                                <p class="paragraph" style="white-space: pre-line; font-family: Helvetica, Arial, 'sans-serif'; font-size: 14px; padding: 0px 24px 0px 24px; line-height: 22px; 5px; color: #262626" >${body}</p>
                                 ${dataTable}
                                 <p class="paragraph" style="font-family: Helvetica, Arial, 'sans-serif'; font-size: 14px; padding: 0px 24px 0px 24px; line-height: 22px; 5px; color: #262626" >  
                                   ${workspace ? 'Workspace: ' + workspace + '<br>' : ''}

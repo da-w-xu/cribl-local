@@ -1,5 +1,5 @@
 exports.name = 'notify';
-exports.version = '0.0.1';
+exports.version = '0.0.2';
 exports.disabled = false;
 exports.handleSignals = true;
 exports.group = C.INTERNAL_FUNCTION_GROUP;
@@ -22,6 +22,7 @@ let group,
   triggerCounter=0,
   triggerType= 'resultsCount', 
   triggerComparator = '>', 
+  targetConfig,
   notificationResults = [], 
   notificationSent= false,
   signalCounter=0,
@@ -32,7 +33,7 @@ const { RestVerb } = C.internal.HttpUtils;
 const { createRequest } = C.internal.kusto;
 
 const createNotification = (now, notificationId, message, results, searchId, savedQueryId, searchUrl, tenantId) => {
-  return {
+  const notification = {
     id: `SEARCH_NOTIFICATION_${notificationId}_${now}`,
     severity: 'info',
     _raw: message,
@@ -44,7 +45,6 @@ const createNotification = (now, notificationId, message, results, searchId, sav
     savedQueryId,
     searchResultsUrl: searchUrl,
     notificationId,
-    resultSet: results,
     tenantId,
     message,
     // search notification condition expects metadata to be populated
@@ -57,8 +57,14 @@ const createNotification = (now, notificationId, message, results, searchId, sav
         // wipe the groupId since the search link doesn't render properly with it.
         groupId: ''
       }
-  };
+    };
+    // Conditionally add resultSet if includeResults is true
+    if (targetConfig?.conf?.includeResults ?? false) {
+      notification.resultSet = results;
+    }
+    return notification;
 };
+
 const comparators =  [">", "<", "===", "!==", ">=", "<="];
 exports.init = async (opt) => {
   // reset defaults for testing
@@ -71,7 +77,7 @@ exports.init = async (opt) => {
   triggerComparator = '>';
   notificationResults = [];
   const conf = opt.conf;
-  ({ searchId, message, savedQueryId, authToken, messagesEndpoint, searchUrl, utLogger, notificationId, tenantId} =
+  ({ searchId, message, savedQueryId, authToken, messagesEndpoint, searchUrl, utLogger, notificationId, tenantId, targetConfig} =
     conf);
   logger = utLogger ?? C.util.getLogger(`func:notify:${searchId}`);
   messageTemplate = new C.internal.kusto.Template(message, false, logger);

@@ -99,8 +99,8 @@ exports.process = async (event) => {
     await flushDest(event);
   }
 
-  if (countEventsWithMissingFields && !event.__signalEvent__) {
-    // don't count events with missing fields for non signals
+  if (!tee && countEventsWithMissingFields && !event.__signalEvent__) {
+    // don't count events with missing fields for signal events and when tee=true
     for (const field of destMeta.acceleratedFields) {
       if (!Object.hasOwn(event, field)) {
         _deltaEventsMissingFields++;
@@ -140,6 +140,9 @@ async function flushDest(event) {
  */
 async function send(evt, destination, tee = false) {
   if (tee) {
+    // quick out preventing sending internally generated Cribl signal messages to Lake
+    if (evt.__signalEvent__) return evt;
+
     const cloned = evt.__clone();
     await destination.send(cloned);
     return evt;
