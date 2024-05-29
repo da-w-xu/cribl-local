@@ -6,7 +6,10 @@
     "type": {
       "type": "string",
       "enum": ["splunk"],
-      "flag": {"prefix": "collector"}
+      "flag": {
+        "prefix": "collector",
+        "modes": ["single", "worker"]
+      }
     },
     "searchHead": {
       "type": "string",

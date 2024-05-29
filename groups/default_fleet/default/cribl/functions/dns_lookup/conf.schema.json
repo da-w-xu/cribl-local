@@ -95,6 +95,14 @@
           }
         }
       }
+    },
+    "lookupFailLogLevel": {
+      "title": "Log level for failed lookups",
+      "description": "Log level for failed DNS lookups.",
+      "type": "string",
+      "enum": ["silly", "debug", "info", "warn", "error"],
+      "enumNames": ["silly", "debug", "info", "warn", "error"],
+      "default": "error"
     }
   }
 }

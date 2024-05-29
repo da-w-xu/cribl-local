@@ -77,7 +77,7 @@
       "advanced": {
         "title": "Advanced Settings",
         "collapsed": true,
-        "properties": ["dnsServers", "cacheTTL", "maxCacheSize" ]
+        "properties": ["dnsServers", "cacheTTL", "maxCacheSize", "lookupFailLogLevel" ]
       }
     }
   }

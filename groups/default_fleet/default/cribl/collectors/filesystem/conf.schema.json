@@ -6,7 +6,10 @@
     "type": {
       "type": "string",
       "enum": ["filesystem"],
-      "flag": {"prefix": "collector"}
+      "flag": {
+        "prefix": "collector",
+        "modes": ["single", "worker"]
+      }
     },
     "outputName": {
       "type": "string",

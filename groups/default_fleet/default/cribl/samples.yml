@@ -137,3 +137,9 @@ model_driven_telemetry:
   created: 1707287700
   size: 2562
   numEvents: 5
+chronicle_udm_zeek_logs:
+  sampleName: chronicle_udm_zeek_logs.log
+  isTemplate: true
+  created: 1715300055
+  size: 3804
+  numEvents: 10

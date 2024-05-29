@@ -2,6 +2,20 @@
   "title": "",
   "type": "object",
   "properties": {
+    "depth": {
+      "type": "integer",
+      "title": "Depth",
+      "description": "Depth to which the Numerify Function will search within a nested event. Depth greater than 5 (the default) could decrease performance.",
+      "default": 5,
+      "thresholdWarning": {
+        "max": {
+          "threshold": 5,
+          "message": "Caution: High depth values could decrease performance"
+        }
+      },
+      "minimum": 0,
+      "maximum": 10
+    },
     "ignoreFields": {
       "title": "Ignore fields",
       "description": "Fields to NOT numerify. Takes precedence over 'Include expression' when set. Supports wildcards. A '!' before field name(s) means: numerify all fields EXCEPT these. For syntax details, see [Wildcard Lists](https://docs.cribl.io/stream/introduction-reference/#wildcard-lists).",
@@ -13,13 +27,12 @@
     },
     "filterExpr": {
       "title": "Include expression",
-      "description": "Optional JS expression to determine whether a field should be numerified. If left empty, LogStream assumes 'numerify all'. Use the 'name' and 'value' global variables to access fields' names/values. Examples: `value != null` or `name=='fieldname'`. You can access other fields' values via `__e.<fieldName>`.",
+      "description": "Optional JavaScript expression to determine whether a field should be numerified. If left blank, all fields will be numerified. Use the 'name' and 'value' global variables to access fields' names/values. Examples: `value != null`, `name=='fieldname'`. You can access other fields' values via `__e.<fieldName>`.",
       "type": "string",
       "jsExpression": true
     },
     "format":{
       "title": "Format",
-      "description": "Defines how to format numbers.",
       "type": "string",
       "enum": ["none", "fix", "floor", "ceil"],
       "enumNames": ["None", "Fix", "Floor", "Ceil"],
@@ -37,7 +50,7 @@
             "digits": {
               "type": "number",
               "title": "Digits",
-              "description": "Number of digits after the decimal point; this may be a value between 0 and 20. It defaults to 2 if omitted.",
+              "description": "Number of digits after the decimal point, between 0 and 20. If left blank, defaults to 2.",
               "default": 2,
               "minimum": 0,
               "maximum": 20

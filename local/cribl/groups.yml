@@ -1,7 +1,10 @@
 default:
+  isFleet: false
+  workerRemoteAccess: true
+  isSearch: false
   description: Default Worker Group
   tags: default
-  configVersion: 6c9344a
+  configVersion: ca7e5ad
 default_fleet:
   description: Default Fleet
   tags: default

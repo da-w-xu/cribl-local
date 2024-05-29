@@ -24,7 +24,9 @@
         "textSecret": "textSecret",
         "subject": "subject",
         "scopes": "scopes",
-        "serviceAccountCredentials": "serviceAccountCredentials"
+        "serviceAccountCredentials": "serviceAccountCredentials",
+        "enableDiscoverCode": "enableDiscoverCode",
+        "formatResultCode": "formatResultCode"
       }
     }
   },
@@ -56,9 +58,6 @@
         "value": { "ui:widget": "JsInput", "ui:placeholder": "Enter header value", "ui:options": { "columnWidth": "60%" } }
       }
     },
-    "discoverDataField": {
-      "ui:placeholder": "Enter name of the field that contains discover results"
-    },
     "itemList": {
       "ui:field": "Tags",
       "ui:placeholder": "Enter list of items to return from the discover task.",
@@ -71,6 +70,18 @@
       "ui:options": {
         "rows": 5
       }
+    },
+    "enableDiscoverCode" : {},
+    "formatResultCode": {
+      "ui:widget": "JsInput",
+      "ui:options": {
+        "autoheight": true,
+        "numLines": 10,
+        "scrollbar": {
+          "horizontal": "visible"
+        }
+      },
+      "ui:placeholder": "const count = +__e['count']; // Expecting __e = { \"count\" : 12345 }\nconst pageSize=100000;\nconst numPages=count/pageSize;\n// Add a task for each page of data to be retrieved\nconst collectTasks=[];\nfor (let i = 0; i < numPages; i++) {\n  collectTasks.push({ offset: i*pageSize, limit: pageSize, count }) // `${offset}` and `${limit}` can be referenced in collect request params\n}\n// Add tasks array to the result object - Discover data field should be set to 'tasks' and will execute one collect task per item in tasks array\n__e['tasks'] = collectTasks;"
     }
   },
   "collectUrl": {
@@ -189,9 +200,10 @@
         "separator": ","
       }
     },
-    "interval": { "ui:options": { "inline": true } },
+    "interval": { "ui:widget": "TimeNumberInput", "ui:options": { "inline": true } },
     "multiplier": { "ui:options": { "inline": true } },
-    "limit": { "ui:options": { "inline": true } }
+    "limit": { "ui:options": { "inline": true } },
+    "maxIntervalMs": { "ui:widget": "TimeNumberInput", "ui:options": { "inline": true, "unit": "ms" } }
   },
   "serviceAccountCredentials": {
     "ui:widget": "TextareaUpload",
@@ -215,7 +227,9 @@
           "discoverDataField",
           "manualDiscoverResult",
           "discoverDataField",
-          "itemList"
+          "itemList",
+          "enableDiscoverCode",
+          "formatResultCode"
         ]
       },
       "collect": {

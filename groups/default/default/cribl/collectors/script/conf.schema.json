@@ -6,7 +6,10 @@
     "type": {
       "type": "string",
       "enum": ["script"],
-      "flag": {"prefix": "collector"}
+      "flag": {
+        "prefix": "collector",
+        "modes": ["single", "worker"]
+      }
     },
     "discoverScript": {
       "type": "string",

@@ -18,7 +18,7 @@
     "dataVolume": {
       "type": "string",
       "title": "Data volume",
-      "description": "Data volume threshold above which a notification is triggered. Accepts numerals with units like KB, MB, etc. (e.g.: 4GB.)",
+      "description": "Data volume threshold above which a notification is triggered. Accepts numerals with units (bytes, KB, MB, GB, etc.), such as 4GB. The default unit is bytes.",
       "pattern": "^\\d+\\s*(?:[KMGTPEZYkmgtpezy][Bb])?$"
     },
     "notifyOnResolution": {

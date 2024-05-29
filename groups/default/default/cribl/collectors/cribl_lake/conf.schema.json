@@ -6,7 +6,10 @@
     "type": {
       "type": "string",
       "enum": ["cribl_lake"],
-      "flag": {"prefix": "destination"}
+      "flag": {
+        "prefix": "destination",
+        "modes": ["single", "worker"]
+      }
     },
     "dataset": {
       "type": "string",

@@ -46,7 +46,6 @@ exports.initTask = async (opts) => {
 exports.jobOnError = async (job, taskId, error) => {}; 
 
 exports.taskExecute = async (job, opts) => {
-
   const logger = job.logger();
   const variant = [os.platform(), os.arch()];
   const package = opts.packages.find((p) => p.variant[0] === variant[0] && p.variant[1] === variant[1]);
@@ -56,30 +55,46 @@ exports.taskExecute = async (job, opts) => {
     return;
   }
 
-  const descriptor = {
-    packageUrl: package.localPackageUrl,
-    hashUrl: package.localHashUrl,
-    version: package.version,
-  };
   logger.info('task opts', { opts });
-  logger.info('Checking upgradeability', { ...descriptor });
+
   let upgradeResult;
-  upgradeResult = await upgradeClient.checkUpgradePath(descriptor, job.logger());
-  if (!upgradeResult.canUpgrade) {
-    logger.info(upgradeResult.message);
-    job.addResult(upgradeResult);
-    return;
+  // Leader will deploy this job starting with 4.7.0, so even older nodes will try this `if`
+  // but it will only be true on 4.7.0+ remote nodes
+  if (typeof upgradeClient.performUpgrade === 'function') {
+    // 4.7.0 remote nodes and newer handle upgrade as defined in their binary
+    // this allows us vary upgrade behavior per version, without dealing with versioning this conf file
+    upgradeResult = await upgradeClient.performUpgrade(package, opts, logger);
+    if (!upgradeResult.canUpgrade) {
+      logger.info(upgradeResult.message);
+      job.addResult(upgradeResult);
+      return;
+    }
+  } else {
+    // remote nodes older than 4.7.0 run this path
+    const descriptor = {
+      packageUrl: package.localPackageUrl,
+      hashUrl: package.localHashUrl,
+      version: package.version,
+    };
+    logger.info('Checking upgradeability', descriptor);
+    upgradeResult = await upgradeClient.checkUpgradePath(descriptor, logger);
+    if (!upgradeResult.canUpgrade) {
+      logger.info(upgradeResult.message);
+      job.addResult(upgradeResult);
+      return;
+    }
+    logger.info('Fetching assets');
+    const downloadResult = await upgradeClient.downloadAssets(descriptor, opts.authToken);
+    logger.info('Fetched assets', downloadResult);
+    if (descriptor.hashUrl) {
+      logger.info('Verifying assets');
+      await upgradeClient.verifyAssets(downloadResult);
+      logger.info('Assets verified');
+    }
+    logger.info('Proceeding to installation');
+    upgradeResult = await upgradeClient.installPackage(downloadResult, upgradeResult);
   }
-  logger.info('Fetching assets');
-  const downloadResult = await upgradeClient.downloadAssets(descriptor, opts.authToken);
-  logger.info('Fetched assets', downloadResult);
-  if (descriptor.hashUrl) {
-    logger.info('Verifying assets');
-    await upgradeClient.verifyAssets(downloadResult);
-    logger.info('Assets verified');
-  }
-  logger.info('Proceeding to installation');
-  upgradeResult = await upgradeClient.installPackage(downloadResult, upgradeResult);
+
   logger.info(upgradeResult.message);
   if (!upgradeResult.isSuccess) {
     job.reportError(new Error(upgradeResult.message), 'TASK_FATAL');

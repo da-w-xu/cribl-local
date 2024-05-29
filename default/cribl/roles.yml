@@ -90,7 +90,7 @@ stream_editor:
   tags: [product, stream]
   policy:
     - ProductUser stream *
-    - LakeRead default *
+    - LakeDatasetAccess default *
     - Monitor
     - '* /w/*'
   title: Editor
@@ -99,7 +99,7 @@ stream_admin:
   tags: [product, stream]
   policy:
     - ProductAdmin stream
-    - LakeRead default *
+    - LakeDatasetAccess default *
   title: Admin
   description: "Admin can do anything within Stream"
 edge_user:
@@ -185,6 +185,24 @@ search_admin:
     - SearchMaintainer *
   title: Admin
   description: "Admin can do anything within Search"
+lake_user:
+  tags: [product, lake]
+  policy:
+    - LakeRead default *
+  title: User
+  description: "User can read the Lake"
+lake_editor:
+  tags: [product, lake]
+  policy:
+    - LakeEdit * *
+  title: Editor
+  description: "Editor can read the Lake and create datasets"
+lake_admin:
+  tags: [product, lake]
+  policy:
+    - LakeFull * *
+  title: Admin
+  description: "Admin can do everything in Lake"
 ws_owner:
   policy:
     - '* *'

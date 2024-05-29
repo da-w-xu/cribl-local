@@ -6,7 +6,10 @@
     "type": {
       "type": "string",
       "enum": ["google_cloud_storage"],
-      "flag": {"prefix": "collector"}
+      "flag": {
+        "prefix": "collector",
+        "modes": ["single", "worker"]
+      }
     },
     "outputName": {
       "type": "string",

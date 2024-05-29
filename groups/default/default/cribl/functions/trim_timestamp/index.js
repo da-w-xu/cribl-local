@@ -1,6 +1,6 @@
-exports.name = 'Trim Timestamp';
+exports.name = 'Trim Timestamp (deprecated)';
 exports.version = '0.2';
-exports.group = 'Advanced';
+exports.group = 'Deprecated Functions';
 exports.sync = true;
 const { NestedPropertyAccessor } = C.expr;
 

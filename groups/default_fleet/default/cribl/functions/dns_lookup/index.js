@@ -33,6 +33,7 @@ let useLookup = false;
 // Used to throttle error logging.
 let numErrors = 0;
 const ERROR_THRESHOLD = 1000;
+let errorLogger = cLogger.error;
 
 exports.init = (opts) => {
   const conf = opts.conf || {};
@@ -58,6 +59,10 @@ exports.init = (opts) => {
         conf
       );
     }
+  }
+  const lookupFailLogLevel = conf.lookupFailLogLevel?.toLowerCase() || 'error';
+  if (lookupFailLogLevel && ['error', 'warn', 'info', 'debug', 'silly'].includes(lookupFailLogLevel)) {
+    errorLogger = cLogger[lookupFailLogLevel];
   }
 
   setUpFields(conf.reverseLookupFields, _reverseLookupFields);
@@ -271,8 +276,8 @@ async function resolve(cacheKey, pullFn, args) {
 }
 
 const handleError = (error, info) => {
-  if (numErrors++ % ERROR_THRESHOLD) {
-    cLogger.error('DNS Lookup error', { error, ...info });
+  if (numErrors++ % ERROR_THRESHOLD === 0) {
+    errorLogger('DNS Lookup error', { error, ...info });
   }
 };
 

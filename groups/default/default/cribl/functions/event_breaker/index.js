@@ -1,5 +1,5 @@
 exports.name = 'Event Breaker';
-exports.version = '0.1';
+exports.version = '0.2';
 exports.group = 'Advanced';
 exports.disabled = false;
 exports.sync = true;
@@ -76,8 +76,8 @@ exports.process = (event) => {
   // Get any events that may have already 'expired'
   const events = [];
 
-  // Be sure we have a unique __channel attribute on our event
-  if (!(CHANNEL in event)) {
+  // Be sure we have a truthy __channel attribute on our event
+  if (!event[CHANNEL]) {
     event[CHANNEL] = DEFAULT_CHANNEL;
   }
 

@@ -18,7 +18,7 @@ GroupEdit:
     - GroupRead ${groupName}
     - POST /system/capture
     - '* /w/*'
-    - LakeRead default *
+    - LakeDatasetAccess default *
   description: Can modify resources within this @{group}
   title: Editor
 GroupCollect:
@@ -30,7 +30,7 @@ GroupCollect:
     - POST /m/${groupName}/jobs
     - PATCH /m/${groupName}/jobs/*
     - GroupRead ${groupName}
-    - LakeRead default *
+    - LakeDatasetAccess default *
   description: Can run Collection jobs on this @{group}
   title: Collect
 GroupRead:
@@ -117,8 +117,6 @@ ProjectRead:
     - GET /m/${groupName}/routes
     - GET /m/${groupName}/routes/*
     - GET /m/${groupName}/system/inputs
-    - GET /m/${groupName}/system/samples
-    - GET /m/${groupName}/system/samples/*
     - GET /m/${groupName}/system/projects
     - GET /m/${groupName}/system/projects/${projectName}
     - GET /m/${groupName}/system/projects/${projectName}/*
@@ -131,6 +129,8 @@ ProjectRead:
     - GET /m/${groupName}/system/projects/${projectName}/destinations
     - GET /m/${groupName}/system/projects/${projectName}/pipelines
     - GET /m/${groupName}/system/projects/${projectName}/pipelines/*
+    - GET /m/${groupName}/system/projects/${projectName}/samples
+    - GET /m/${groupName}/system/projects/${projectName}/samples/*
   description: Can view the Project and its Subscriptions
   title: Read Only
 ProjectEdit:
@@ -149,7 +149,8 @@ ProjectEdit:
     - GET /m/${groupName}/system/projects/${projectName}/version/files
     - GET /m/${groupName}/system/projects/${projectName}/version/count
     - POST /m/${groupName}/system/projects/${projectName}/version/commit
-    - POST /m/${groupName}/system/samples
+    - POST /m/${groupName}/system/projects/${projectName}/samples
+    - DELETE /m/${groupName}/system/projects/${projectName}/samples/*
   description: Can edit the Project and its Subscriptions
   title: Editor
 Monitor:
@@ -256,6 +257,7 @@ ProductAdmin:
     - GET /system/services-limits
     - GET /system/processes
     - Licenses
+    - PATCH /isNewNavigation
   description: Can create, view, update, and delete all @{group}s and resources
 DatasetMaintain:
   args:
@@ -316,6 +318,7 @@ SearchBase:
   args:
     - groupName
   template:
+    - GET /system/teams
     - GET /m/${groupName}/settings/features
     - GET /m/${groupName}/system/info
     - GET /system/messages
@@ -323,14 +326,14 @@ SearchBase:
     - GET /m/${groupName}/search/datasets
     - GET /m/${groupName}/lib/vars
     - GET /m/${groupName}/lib/vars/*
-    - GET /m/${groupName}/lib/parsers
-    - GET /m/${groupName}/lib/parsers/*
-    - GET /m/${groupName}/lib/breakers/*
-    - GET /m/${groupName}/lib/breakers
-    - GET /m/${groupName}/lib/grok
-    - GET /m/${groupName}/lib/grok/*
-    - GET /m/${groupName}/lib/regex
-    - GET /m/${groupName}/lib/regex/*
+    - '* /m/${groupName}/lib/parsers'
+    - '* /m/${groupName}/lib/parsers/*'
+    - '* /m/${groupName}/lib/breakers/*'
+    - '* /m/${groupName}/lib/breakers'
+    - '* /m/${groupName}/lib/grok'
+    - '* /m/${groupName}/lib/grok/*'
+    - '* /m/${groupName}/lib/regex'
+    - '* /m/${groupName}/lib/regex/*'
     - GET /m/${groupName}/search/settings
     - GET /m/${groupName}/functions
     - GET /m/${groupName}/functions/*
@@ -366,7 +369,7 @@ SearchBase:
     - GET /m/${groupName}/search/usage-groups
     - GET /m/${groupName}/system/search-limits
     # Cribl lake read only access
-    - LakeRead default *
+    - LakeDatasetAccess default *
     # UI metrics
     - POST /m/${groupName}/search/ui-metrics
     - POST /m/${groupName}/search/dashboards
@@ -377,14 +380,6 @@ SearchMaintainer:
   template:
     - SearchBase ${groupName}
     - SearchRuntimeRestrictionsMaintainer ${groupName}
-    - '* /m/${groupName}/lib/parsers'
-    - '* /m/${groupName}/lib/parsers/*'
-    - '* /m/${groupName}/lib/breakers/*'
-    - '* /m/${groupName}/lib/breakers'
-    - '* /m/${groupName}/lib/grok'
-    - '* /m/${groupName}/lib/grok/*'
-    - '* /m/${groupName}/lib/regex'
-    - '* /m/${groupName}/lib/regex/*'
     - '* /m/${groupName}/search/dashboard-categories'
     - '* /m/${groupName}/search/dashboard-categories/*'
     - GET /m/${groupName}/search/dataset-providers
@@ -440,12 +435,45 @@ MacroRead:
     - GET /m/${groupName}/search/macros/${macroId}/*
   description: Members with this policy can view and use the macro
   title: Read Only
-LakeRead:
+LakeDatasetAccess:
   args:
     - lakeId
     - datasetId
   template:
     - GET /products/lake/lakes/${lakeId}/datasets
     - GET /products/lake/lakes/${lakeId}/datasets/${datasetId}
+  description: Access to the Lake datasets
+LakeRead:
+  args:
+    - lakeId
+    - datasetId
+  template:
+    - GET /ui/*
+    - GET /system/info
+    - GET /products/lake
+    - GET /products/lake/
+    - GET /settings/features
+    - LakeDatasetAccess ${lakeId} ${datasetId}
   description: Can view and use a Lake Dataset
   title: Read Only
+LakeEdit:
+  args:
+    - lakeId
+    - datasetId
+  template:
+    - LakeRead * *
+    - PATCH /ui/*
+    - POST /products/lake/lakes/${lakeId}/datasets
+    - PATCH /products/lake/lakes/${lakeId}/datasets/${datasetId}
+  description: Can create and edit datasets
+  title: Editor
+LakeFull:
+  args:
+    - lakeId
+    - datasetId
+  template:
+    - LakeEdit * *
+    - PATCH /isNewNavigation
+    - DELETE /products/lake/lakes/${lakeId}/datasets/${datasetId}
+  description: Can fully manage datasets
+  title: Admin
