@@ -1,0 +1,12 @@
+distributed:
+  mode: master
+  master:
+    host: 0.0.0.0
+    port: 4200
+    tls:
+      disabled: true
+    ipWhitelistRegex: /.*/
+    maxActiveCxn: 0
+    authToken: "#42:PANs4XRQsIHsjonScp8wahWdzol1QyzDXakkYEW1guw="
+    configBundles: {}
+    configHelperSocketDir: /var/folders/7q/j193hkqd0pjdyz_3rz4p166m0000gp/T

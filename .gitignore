@@ -6,7 +6,6 @@
 default/ui
 default/data/ui
 bin
-/lib/
 log
 pid
 data/uploads

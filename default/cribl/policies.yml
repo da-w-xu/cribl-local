@@ -257,7 +257,6 @@ ProductAdmin:
     - GET /system/services-limits
     - GET /system/processes
     - Licenses
-    - PATCH /isNewNavigation
   description: Can create, view, update, and delete all @{group}s and resources
 DatasetMaintain:
   args:
@@ -318,7 +317,6 @@ SearchBase:
   args:
     - groupName
   template:
-    - GET /system/teams
     - GET /m/${groupName}/settings/features
     - GET /m/${groupName}/system/info
     - GET /system/messages
@@ -326,14 +324,14 @@ SearchBase:
     - GET /m/${groupName}/search/datasets
     - GET /m/${groupName}/lib/vars
     - GET /m/${groupName}/lib/vars/*
-    - '* /m/${groupName}/lib/parsers'
-    - '* /m/${groupName}/lib/parsers/*'
-    - '* /m/${groupName}/lib/breakers/*'
-    - '* /m/${groupName}/lib/breakers'
-    - '* /m/${groupName}/lib/grok'
-    - '* /m/${groupName}/lib/grok/*'
-    - '* /m/${groupName}/lib/regex'
-    - '* /m/${groupName}/lib/regex/*'
+    - GET /m/${groupName}/lib/parsers
+    - GET /m/${groupName}/lib/parsers/*
+    - GET /m/${groupName}/lib/breakers/*
+    - GET /m/${groupName}/lib/breakers
+    - GET /m/${groupName}/lib/grok
+    - GET /m/${groupName}/lib/grok/*
+    - GET /m/${groupName}/lib/regex
+    - GET /m/${groupName}/lib/regex/*
     - GET /m/${groupName}/search/settings
     - GET /m/${groupName}/functions
     - GET /m/${groupName}/functions/*
@@ -380,6 +378,14 @@ SearchMaintainer:
   template:
     - SearchBase ${groupName}
     - SearchRuntimeRestrictionsMaintainer ${groupName}
+    - '* /m/${groupName}/lib/parsers'
+    - '* /m/${groupName}/lib/parsers/*'
+    - '* /m/${groupName}/lib/breakers/*'
+    - '* /m/${groupName}/lib/breakers'
+    - '* /m/${groupName}/lib/grok'
+    - '* /m/${groupName}/lib/grok/*'
+    - '* /m/${groupName}/lib/regex'
+    - '* /m/${groupName}/lib/regex/*'
     - '* /m/${groupName}/search/dashboard-categories'
     - '* /m/${groupName}/search/dashboard-categories/*'
     - GET /m/${groupName}/search/dataset-providers
@@ -473,7 +479,6 @@ LakeFull:
     - datasetId
   template:
     - LakeEdit * *
-    - PATCH /isNewNavigation
     - DELETE /products/lake/lakes/${lakeId}/datasets/${datasetId}
   description: Can fully manage datasets
   title: Admin

@@ -3,4 +3,15 @@ distributed:
   master:
     host: 0.0.0.0
     port: 4200
+    tls:
+      disabled: true
+    ipWhitelistRegex: /.*/
+    maxActiveCxn: 0
+    authToken: "#42:XrC5n61sDJDdAytQcCFny5ocNwdeNC2klWda4LXy3tv9kKZaOFaMiWqkHxc+VR/i"
     resiliency: none
+    configBundles: {}
+    failover:
+      period: 5s
+      missedHBLimit: 3
+      volume: /Users/dxu/src/cribl2/dist/ributed/failover
+    configHelperSocketDir: /var/folders/7q/j193hkqd0pjdyz_3rz4p166m0000gp/T

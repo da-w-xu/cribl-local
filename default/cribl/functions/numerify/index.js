@@ -10,7 +10,6 @@ let conf = {};
 let WLIgnoreList = null;
 let formatter;
 let filter;
-let depth = 5;
 exports.init = (opt) => {
   conf = (opt || {}).conf || {};
   WLIgnoreList = null;
@@ -26,12 +25,6 @@ exports.init = (opt) => {
     filter = (event, name, value) => Boolean(expr.evalOn(event, name, value));
   }
 
-  if (typeof conf.depth === 'number' && conf.depth >= 0 && conf.depth <= 10){
-    depth = conf.depth;
-  } else {
-    depth = 5;
-  }
-  
   conf.digits = Number(conf.digits);
   const digits = Number.isNaN(conf.digits) ? 2 : conf.digits;
 
@@ -46,7 +39,7 @@ exports.init = (opt) => {
 exports.process = (event) => {
   if (!event) return event;
 
-  event.__traverseAndUpdate(depth, (path, val) => {
+  event.__traverseAndUpdate(5, (path, val) => {
     let asNum;
     try  { asNum = Number(val); } catch (err) { return val; }
     if (Number.isNaN(asNum)) return val;
