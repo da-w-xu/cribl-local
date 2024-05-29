@@ -1,5 +1,8 @@
 {
   "resourceAttributePrefixes": {
     "ui:field": "Tags"
+  },
+  "metadataKeys": {
+    "ui:field": "Tags"
   }
 }

@@ -38,7 +38,7 @@
     },
     "remove": {
       "title": "Remove Fields",
-      "description": "List of fields to remove, supports * wildcards. Cannot remove fields matching 'Keep Fields'.",
+      "description": "List of fields to remove, supports * wildcards. Cannot remove fields matching 'Keep Fields'. Field names that contain special characters may need to be enclosed in single or double quotes.",
       "type": "array",
       "items": {"type": "string"}
     }

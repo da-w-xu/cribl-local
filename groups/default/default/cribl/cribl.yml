@@ -24,3 +24,5 @@ workers:
   memory: 2048
 proxy:
   useEnvVars: true
+shutdown:
+  drainTimeout: 10
