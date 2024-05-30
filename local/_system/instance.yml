@@ -7,7 +7,7 @@ distributed:
       disabled: true
     ipWhitelistRegex: /.*/
     maxActiveCxn: 0
-    authToken: "#42:XrC5n61sDJDdAytQcCFny5ocNwdeNC2klWda4LXy3tv9kKZaOFaMiWqkHxc+VR/i"
+    authToken: "#42:kw1z1zKOZ8S3zu6jFmU6rXkNhZE9bKpkLvJyRvjOyhg="
     resiliency: none
     configBundles: {}
     failover:

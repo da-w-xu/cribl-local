@@ -185,11 +185,11 @@ search_admin:
     - SearchMaintainer *
   title: Admin
   description: "Admin can do anything within Search"
-lake_user:
+lake_reader:
   tags: [product, lake]
   policy:
     - LakeRead default *
-  title: User
+  title: Read Only
   description: "User can read the Lake"
 lake_editor:
   tags: [product, lake]

@@ -567,7 +567,7 @@
       "type": "boolean",
       "title": "Capture response headers",
       "description":
-        "Enable to add request headers to the resHeaders field under the __collectible object",
+        "Enable to add response headers to the resHeaders field under the __collectible object",
       "default": false
     },
     "safeHeaders": {

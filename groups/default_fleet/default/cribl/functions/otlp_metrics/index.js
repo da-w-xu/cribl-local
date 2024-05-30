@@ -1,25 +1,22 @@
 exports.name = 'OTLP Metrics';
-exports.version = '0.2';
+exports.version = '0.3';
 exports.disabled = false;
 exports.group = 'Formatters';
 exports.sync = true;
+exports.handleSignals = true;
 
 const cLogger = C.util.getLogger('func:otlp_metrics');
 const { OtelMetricsFormatter } = C.internal.otel;
 
-const dropMetricsMap = new Map([['info', 'target']]);
-
 const statsInterval = 60000; // 1 minute
 
-let numDropped, numLocalNotMetric;
+let otelMetricsFormatterConfig = {};
+let otlpBatchConfig = {};
 let metricsFormatter;
 let statsReportInterval;
-let shouldDropNonMetricEvents;
 
 function resetStats() {
   metricsFormatter?.resetStats();
-  numDropped = 0;
-  numLocalNotMetric = 0;
 }
 
 function reportStats() {
@@ -27,7 +24,9 @@ function reportStats() {
     numGaugeHistogram,
     numHistogramNoCount,
     numSummaryNoCount,
-    numNotMetric
+    numDropped,
+    numNotMetric,
+    numBatches
   } = metricsFormatter.getStats();
 
   // Report stats, then reset
@@ -35,17 +34,37 @@ function reportStats() {
     numGaugeHistogram,
     numHistogramNoCount,
     numSummaryNoCount,
-    numNotMetric: numNotMetric + numLocalNotMetric,
-    numDropped
+    numNotMetric,
+    numDropped,
+    numBatches
   });
   resetStats();
 }
 
 exports.init = (opts) => {
   const conf = (opts || {}).conf || {};
-  shouldDropNonMetricEvents = conf.dropNonMetricEvents || false;
 
-  metricsFormatter = new OtelMetricsFormatter(cLogger, conf.resourceAttributePrefixes);
+  otelMetricsFormatterConfig = {
+    shouldDropNonMetricEvents: conf.dropNonMetricEvents || false,
+    resourceAttributePrefixes: conf.resourceAttributePrefixes
+ };
+
+  otlpBatchConfig = {
+    enableOTLPMetricsBatching: conf.batchOTLPMetrics,
+    sendBatchSize: conf.sendBatchSize ?? 8192,
+    timeout: conf.timeout ?? 200,
+    sendBatchMaxSize: C.util.parseMemoryStringToBytes(`${conf.sendBatchMaxSize ?? 0}KB`),
+    metadataKeys: conf.metadataKeys ?? [],
+    metadataCardinalityLimit: conf.metadataCardinalityLimit ?? 1000
+  };
+
+  if (otlpBatchConfig.metadataKeys.length > 0 && otlpBatchConfig.metadataCardinalityLimit === 0) {
+    // Can't have unlimited cardinality
+    cLogger.warn("Can't have unlimited cardinality, setting cardinality to 1000");
+    otlpBatchConfig.metadataCardinalityLimit = 1000;
+  }
+
+  metricsFormatter = new OtelMetricsFormatter(cLogger, otelMetricsFormatterConfig, otlpBatchConfig);
 
   resetStats();
 
@@ -54,30 +73,18 @@ exports.init = (opts) => {
 };
 
 exports.process = (event) => {
-  // Cribl metrics
+  let flushedEvents = [];
 
-  // Short circuit and return early if event is not a metric event
-  if (!('__criblMetrics' in event)) {
-    numLocalNotMetric++;
-    if (shouldDropNonMetricEvents) {
-      numDropped++;
-      return null;
-    } else {
-      return event;
+  if (event.__signalEvent__) {
+    if (otlpBatchConfig.enableOTLPMetricsBatching) {
+      flushedEvents = metricsFormatter.output(event.__signalEvent__ === 'final');
     }
+    flushedEvents.push(event);
+  } else {
+    flushedEvents = metricsFormatter.handleEvent(event);
   }
 
-  const metricEvent = metricsFormatter?.formatEvent(event);
-  if (metricEvent == null) {
-    if (shouldDropNonMetricEvents || (event._metric && dropMetricsMap.get(event._metric_type) === event._metric)) {
-      numDropped++;
-      return null;
-    } else {
-      return event;
-    }
-  }
-
-  return metricEvent;
+  return flushedEvents.length === 0 ? null : (flushedEvents.length === 1 ? flushedEvents[0] : flushedEvents);
 };
 
 exports.unload = () => {
@@ -93,13 +100,16 @@ exports.UT_getStats = () => {
     numGaugeHistogram,
     numHistogramNoCount,
     numSummaryNoCount,
-    numNotMetric
+    numDropped,
+    numNotMetric,
+    numBatches
   } = metricsFormatter.getStats();
   return {
     numGaugeHistogram,
     numHistogramNoCount,
     numSummaryNoCount,
     numDropped,
-    numNotMetric: numNotMetric + numLocalNotMetric
+    numNotMetric,
+    numBatches
   };
 };

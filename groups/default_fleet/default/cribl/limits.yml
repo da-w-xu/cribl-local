@@ -23,3 +23,4 @@ eventsMetadataSources: []
 enableMetricsPersistence: true
 defaultHeartbeatSeconds: 10
 maxPQSize: 1TB
+edgeNodesCount: 0

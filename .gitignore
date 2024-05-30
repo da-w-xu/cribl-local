@@ -6,6 +6,7 @@
 default/ui
 default/data/ui
 bin
+/lib/
 log
 pid
 data/uploads
@@ -21,3 +22,4 @@ thirdparty/
 **/auth/ssh/git.key
 ha-version.txt
 ### CUSTOM SECTION -- DO NOT REMOVE ###
+groups/default/local/cribl/auth/cribl.secret
