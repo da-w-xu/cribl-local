@@ -4,7 +4,7 @@ default:
   isSearch: false
   description: Default Worker Group
   tags: default
-  configVersion: 438b6a1d
+  configVersion: 0be3b9d7
 default_fleet:
   description: Default Fleet
   tags: default
